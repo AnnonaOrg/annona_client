@@ -1,0 +1,19 @@
+#!/bin/bash
+
+VERSION=0.0.1
+APPNAME=annona_client
+
+echo "package constvar" > ./internal/constvar/version.go
+echo "const(APP_VERSION = \"${VERSION}\")" >> ./internal/constvar/version.go
+go fmt ./internal/constvar
+
+make clean
+git add .
+git commit -m "v${VERSION} debug"
+git tag "v$VERSION"
+make gitpush
+
+####make clean
+#make docker-image
+#make docker-image-apisender
+#make build

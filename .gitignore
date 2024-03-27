@@ -1,0 +1,21 @@
+.DS_Store
+.env
+.tdlib
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.o
+*.a
+
+# Test binary, built with `go test -c`
+*.test
+*.debug
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+#annona
+_start_sh

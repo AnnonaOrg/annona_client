@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  annona_client:
+    image:  annona/annona_client:latest
+    container_name: annona_client
+    restart: always #no #always
+    stdin_open: true
+    tty: true
+    build: .
+    # command: /app/main
+    # env_file:
+    #   - .env
+    volumes:
+      - ./.env:/app/.env
+      - ./.tdlib:/app/.tdlib
+    environment:
+      - TZ=${TZ}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - APP_TELEGRAM_BOT_TOKEN=${APP_TELEGRAM_BOT_TOKEN}
+      - APP_TELEGRAM_API_ID=${APP_TELEGRAM_API_ID}
+      - APP_TELEGRAM_API_HASH=${APP_TELEGRAM_API_HASH}
+      - APP_TELEGRAM_USER_PHONE_NUMBER=${APP_TELEGRAM_USER_PHONE_NUMBER}
+      - APP_TELEGRAM_USER_ID=${APP_TELEGRAM_USER_ID}
+      - SERVER_DB_REDIS_ADDRESS=${SERVER_DB_REDIS_ADDRESS}
+      - NOTICE_OF_FEEDRICHMSG_PUSH_URL=${NOTICE_OF_FEEDRICHMSG_PUSH_URL}
+      - NOTICE_OF_FEEDRICHMSG_PUSH_URL_PATH=${NOTICE_OF_FEEDRICHMSG_PUSH_URL_PATH}
+    # ports:
+    #   - "8082:8082"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
