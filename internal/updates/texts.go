@@ -36,11 +36,11 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		messageData int32,
 	) string {
 		retText := ""
-		retText = fmt.Sprintf("#ID%d", senderID) + "\n"
+		retText = fmt.Sprintf("#ID%d", senderID)
 		if len(senderUsername) > 0 {
-			retText = retText + " @" + senderUsername + "\n"
+			retText = retText + " @" + senderUsername
 		}
-		retText = retText +
+		retText = retText + "\n" +
 			fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +
 			// "messageLink: " + messageLink + " " + fmt.Sprintf("%t", messageLinkIsPublic) + "\n" +
 			"消息日期: " + utils.FormatTimestamp2String(int64(messageData)) + "\n" +
