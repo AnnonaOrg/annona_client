@@ -50,6 +50,20 @@ func GetUsernamesByID(userID int64) ([]string, error) {
 	}
 	return nil, fmt.Errorf("the userID(%d) have no username", userID)
 }
+
+func GetUsernameByID(userID int64) (string, error) {
+	usernames, err := GetUsernamesByID(userID)
+	if err != nil {
+		return "", err
+	}
+	for _, v := range usernames {
+		if len(v) > 0 {
+			return v, nil
+		}
+	}
+	return "", fmt.Errorf("the userID(%d) have no username: %v", userID, usernames)
+}
+
 func CheckBotUsernameByUserID(userID int64) (string, bool, error) {
 	usernames, err := GetUsernamesByID(userID)
 	if err != nil {

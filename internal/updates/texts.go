@@ -12,7 +12,7 @@ import (
 )
 
 // handleText handles incoming text messages.
-func handleText(message *client.Message, senderID int64) {
+func handleText(message *client.Message, senderID int64, senderUsername string) {
 	messageContent := api.GetMessageFormattedText(message.Content) // message.Content.(*client.MessageText)
 	messageContentText := messageContent.Text
 	// log.Info("messageContent", messageContent, "messageContent.Text", messageContentText.Text)
@@ -29,41 +29,33 @@ func handleText(message *client.Message, senderID int64) {
 		}
 	}
 
-	newMsg := func(chatID, messageID, senderID int64,
+	newMsg := func(chatID, messageID,
+		senderID int64, senderUsername string,
 		messageContentText string,
 		messageLink string, messageLinkIsPublic bool,
 		messageData int32,
 	) string {
-		// retText :=
-		// 	"chatID: " + fmt.Sprintf("%d", chatID) + "\n" +
-		// 		"messageID: " + fmt.Sprintf("%d", messageID) + "\n" +
-		// 		"senderID: " + fmt.Sprintf("tg://user?id=%d", senderID) + "\n" +
-		// 		"messageLink: " + messageLink + " " + fmt.Sprintf("%t", messageLinkIsPublic) + "\n" +
-		// 		"messageData: " + utils.FormatTimestamp2String(int64(messageData)) + "\n" +
-		// 		"messageContentText: " + messageContentText
-		retText :=
-			// "群组ID: " + fmt.Sprintf("%d", chatID) + "\n" +
-			// "messageID: " + fmt.Sprintf("%d", messageID) + "\n" +
-			fmt.Sprintf("#ID%d", senderID) + "\n" +
-				fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +
-				// "messageLink: " + messageLink + " " + fmt.Sprintf("%t", messageLinkIsPublic) + "\n" +
-				"消息日期: " + utils.FormatTimestamp2String(int64(messageData)) + "\n" +
-				"消息内容: \n" + messageContentText
+		retText := ""
+		retText = fmt.Sprintf("#ID%d", senderID) + "\n"
+		if len(senderUsername) > 0 {
+			retText = retText + " @" + senderUsername + "\n"
+		}
+		retText = retText +
+			fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +
+			// "messageLink: " + messageLink + " " + fmt.Sprintf("%t", messageLinkIsPublic) + "\n" +
+			"消息日期: " + utils.FormatTimestamp2String(int64(messageData)) + "\n" +
+			"消息内容: \n" + messageContentText
 
 		return retText
 	}
-	log.Debugf("newMsg: %s", newMsg(message.ChatId, message.Id, senderID,
-		messageContentText,
-		messageLink, messageLinkIsPublic,
-		message.Date,
-	))
 
 	go process_message.ProcessMessageKeywords(
 		fmt.Sprintf("%d", message.ChatId),
-		fmt.Sprintf("%d", senderID),
+		fmt.Sprintf("%d", senderID), senderUsername,
 		fmt.Sprintf("%d_%d", message.ChatId, message.Id),
 		utils.FormatTimestamp2String(int64(message.Date)),
-		newMsg(message.ChatId, message.Id, senderID,
+		newMsg(message.ChatId, message.Id,
+			senderID, senderUsername,
 			messageContentText,
 			messageLink, messageLinkIsPublic,
 			message.Date,

@@ -46,13 +46,17 @@ func handleNewMessage(message *client.Message) {
 		log.Debugf("Message is anonymous")
 		return
 	}
+	senderUsername, err := api.GetUsernameByID(senderID)
+	if err != nil {
+		log.Errorf("GetUsernameByID(%d): %+v", senderID, err)
+	}
 	// if !message.IsChannelPost && !message.IsTopicMessage && message.ChatId == senderID && message.ChatId > 0 {
 	// 	log.Debugf("Message is private")
 	// }
 
 	switch message.Content.MessageContentType() {
 	case client.TypeMessageText:
-		handleText(message, senderID)
+		handleText(message, senderID, senderUsername)
 		// case client.TypeMessageAnimation:
 		// 	handleMedia(message, client.TypeAnimation, false)
 		// case client.TypeMessagePhoto:

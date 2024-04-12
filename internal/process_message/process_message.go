@@ -18,7 +18,7 @@ import (
 // originalText 原始消息内容
 // messageLink 消息链接
 // messageLinkIsPublic 消息链接是否为公开链接
-func ProcessMessageKeywords(chatID, senderID, messageID, messageDate, messageContentText, originalText string, messageLink string, messageLinkIsPublic bool) {
+func ProcessMessageKeywords(chatID, senderID, senderUsername, messageID, messageDate, messageContentText, originalText string, messageLink string, messageLinkIsPublic bool) {
 	allUserMap := make(map[string]string, 0)
 	allBlockUserMap := make(map[string]string, 0)
 	isInBlockFromChatID := redis_user.IsBlockformchatidOfAllCheck(chatID)
