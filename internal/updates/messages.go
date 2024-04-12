@@ -88,14 +88,17 @@ func handleUpdatedMessage(umc *client.UpdateMessageContent) {
 		log.Debug("Message from self")
 		return
 	}
-
 	log.Debugf("Message: %#v", message.Content)
+	senderUsername, err := api.GetUsernameByID(senderID)
+	if err != nil {
+		log.Errorf("GetUsernameByID(%d): %+v", senderID, err)
+	}
 
 	// Updates to textual messages can be handled normally, without any specific worry
 	if umc.NewContent.MessageContentType() == client.TypeMessageText {
 
 		if !message.IsChannelPost {
-			handleText(message, senderID)
+			handleText(message, senderID, senderUsername)
 		}
 
 		return
