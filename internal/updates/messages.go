@@ -69,7 +69,7 @@ func handleNewMessage(message *client.Message) {
 
 // handleUpdatedMessage handles updated messages.
 func handleUpdatedMessage(umc *client.UpdateMessageContent) {
-	log.Debugf("Message: %#v", message)
+
 	// Since we are just given the updated content,
 	// we need to get the full message
 	message, err := api.GetMessage(umc.ChatId, umc.MessageId)
@@ -77,7 +77,7 @@ func handleUpdatedMessage(umc *client.UpdateMessageContent) {
 		log.Errorf("Unable to get message data: %+v", err)
 		return
 	}
-
+	// log.Debugf("Message: %#v", message.Content)
 	senderID, err := api.GetSenderID(message) //api.GetSenderUserID(message)
 	if err != nil {
 		log.Error("GetSenderID: %+v", err)
