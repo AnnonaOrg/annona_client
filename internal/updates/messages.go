@@ -10,7 +10,7 @@ import (
 
 // handleNewMessage handles incoming messages.
 func handleNewMessage(message *client.Message) {
-	log.Debugf("Message: %#v", message)
+	// log.Debugf("Message: %#v", message)
 	//跳过频道消息
 	if message.IsChannelPost {
 		log.Debugf("IsChannelPost: %#v", message)
@@ -69,6 +69,7 @@ func handleNewMessage(message *client.Message) {
 
 // handleUpdatedMessage handles updated messages.
 func handleUpdatedMessage(umc *client.UpdateMessageContent) {
+	log.Debugf("Message: %#v", message)
 	// Since we are just given the updated content,
 	// we need to get the full message
 	message, err := api.GetMessage(umc.ChatId, umc.MessageId)
@@ -88,7 +89,7 @@ func handleUpdatedMessage(umc *client.UpdateMessageContent) {
 		log.Debug("Message from self")
 		return
 	}
-	log.Debugf("Message: %#v", message.Content)
+
 	senderUsername, err := api.GetUsernameByID(senderID)
 	if err != nil {
 		log.Errorf("GetUsernameByID(%d): %+v", senderID, err)

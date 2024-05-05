@@ -1,9 +1,6 @@
 package log
 
 import (
-	// "fmt"
-	// "runtime"
-
 	"github.com/AnnonaOrg/osenv"
 	"github.com/sirupsen/logrus"
 )
