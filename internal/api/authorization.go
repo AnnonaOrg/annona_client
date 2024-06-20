@@ -63,21 +63,21 @@ func BotAuthorize(apiIdRaw, apiHash string, botToken string) (tClient *client.Cl
 	apiId := int32(apiId64)
 
 	authorizer.TdlibParameters <- &client.SetTdlibParametersRequest{
-		UseTestDc:              false,
-		DatabaseDirectory:      filepath.Join(".tdlib", "database"),
-		FilesDirectory:         filepath.Join(".tdlib", "files"),
-		UseFileDatabase:        true,
-		UseChatInfoDatabase:    true,
-		UseMessageDatabase:     true,
-		UseSecretChats:         false,
-		ApiId:                  apiId,
-		ApiHash:                apiHash,
-		SystemLanguageCode:     "en",
-		DeviceModel:            "Server",
-		SystemVersion:          "1.0.0",
-		ApplicationVersion:     "1.0.0",
-		EnableStorageOptimizer: true,
-		IgnoreFileNames:        false,
+		UseTestDc:           false,
+		DatabaseDirectory:   filepath.Join(".tdlib", "database"),
+		FilesDirectory:      filepath.Join(".tdlib", "files"),
+		UseFileDatabase:     true,
+		UseChatInfoDatabase: true,
+		UseMessageDatabase:  true,
+		UseSecretChats:      false,
+		ApiId:               apiId,
+		ApiHash:             apiHash,
+		SystemLanguageCode:  "en",
+		DeviceModel:         "Server",
+		SystemVersion:       "1.0.0",
+		ApplicationVersion:  "1.0.0",
+		// EnableStorageOptimizer: true,
+		// IgnoreFileNames:        false,
 	}
 
 	logVerbosity := client.WithLogVerbosity(&client.SetLogVerbosityLevelRequest{

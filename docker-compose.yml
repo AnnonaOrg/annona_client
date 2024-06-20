@@ -6,7 +6,10 @@ services:
     restart: always #no #always
     stdin_open: true
     tty: true
-    build: .
+    build: 
+      context: .
+      args:
+        - TD_COMMIT=d7203eb
     # command: /app/main
     # env_file:
     #   - .env
