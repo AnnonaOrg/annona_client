@@ -66,7 +66,7 @@ func BotAuthorize(apiIdRaw, apiHash string, botToken string) (tClient *client.Cl
 		UseTestDc:           false,
 		DatabaseDirectory:   filepath.Join(".tdlib", "database"),
 		FilesDirectory:      filepath.Join(".tdlib", "files"),
-		UseFileDatabase:     true,
+		UseFileDatabase:     false,
 		UseChatInfoDatabase: true,
 		UseMessageDatabase:  true,
 		UseSecretChats:      false,
