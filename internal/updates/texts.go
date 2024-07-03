@@ -3,6 +3,8 @@ package updates
 import (
 	"fmt"
 
+	"github.com/AnnonaOrg/annona_client/internal/service"
+
 	"github.com/AnnonaOrg/annona_client/internal/process_message"
 
 	"github.com/AnnonaOrg/annona_client/internal/api"
@@ -64,6 +66,7 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		messageLink,
 		messageLinkIsPublic,
 	)
+	go service.CreateKeyworldHistoryEx(message.ChatId, senderID, senderUsername, message.Id, messageContentText, messageLink)
 }
 
 // message_str = f'**关键词: {keywords}** __群组信息__ \n\n用户ID: [tg://user?id={event.from_id.user_id}](tg://user?id={event.from_id.user_id}) \n群组ID: {event.chat_id} \n群名称: {event.chat.title}\n消息位置: [点击查看]({channel_msg_url})\n消息时间: {china_time_str}'
