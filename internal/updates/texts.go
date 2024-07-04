@@ -45,7 +45,7 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 			messageContentText = utils.GetStringRuneN(messageContentText, 20)
 		}
 		retText = retText + "\n" +
-			fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +
+			// fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +
 			// "messageLink: " + messageLink + " " + fmt.Sprintf("%t", messageLinkIsPublic) + "\n" +
 			"消息日期: " + utils.FormatTimestamp2String(int64(messageData)) + "\n" +
 			"消息内容: \n" + messageContentText
