@@ -3,6 +3,8 @@ package updates
 import (
 	"fmt"
 
+	"github.com/AnnonaOrg/osenv"
+
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/process_message"
 	"github.com/AnnonaOrg/annona_client/utils"
@@ -38,6 +40,9 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		retText = fmt.Sprintf("#ID%d", senderID)
 		if len(senderUsername) > 0 {
 			retText = retText + " @" + senderUsername
+		}
+		if osenv.IsTDlibSimpleMessage() {
+			messageContentText = utils.GetStringRuneN(messageContentText, 20)
 		}
 		retText = retText + "\n" +
 			fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +

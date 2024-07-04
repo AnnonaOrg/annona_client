@@ -3,7 +3,7 @@ module github.com/AnnonaOrg/annona_client
 go 1.21.6
 
 require (
-	github.com/AnnonaOrg/osenv v0.0.19
+	github.com/AnnonaOrg/osenv v0.1.11
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/redis/go-redis/v9 v9.4.0
 	github.com/sirupsen/logrus v1.9.3
