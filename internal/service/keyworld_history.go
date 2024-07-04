@@ -37,6 +37,7 @@ func CreateKeyworldHistory(req *request.KeyworldHistoryInfo) error {
 func CreateKeyworldHistoryEx(
 	chatID, senderID int64, senderUsername string,
 	messageID int64, messageContentText string, messageLink string,
+	keyworld string,
 ) error {
 	req := &request.KeyworldHistoryInfo{}
 	req.ChatId = chatID
@@ -45,5 +46,6 @@ func CreateKeyworldHistoryEx(
 	req.MessageId = messageID
 	req.MessageContentText = messageContentText
 	req.MessageLink = messageLink
+	req.KeyWorld = keyworld
 	return CreateKeyworldHistory(req)
 }

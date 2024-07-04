@@ -5,6 +5,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/AnnonaOrg/annona_client/internal/service"
+
 	"github.com/AnnonaOrg/annona_client/internal/redis_user"
 	log "github.com/sirupsen/logrus"
 )
@@ -18,11 +20,14 @@ import (
 // originalText 原始消息内容
 // messageLink 消息链接
 // messageLinkIsPublic 消息链接是否为公开链接
-func ProcessMessageKeywords(chatID, senderID, senderUsername, messageID, messageDate, messageContentText, originalText string, messageLink string, messageLinkIsPublic bool) {
+func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messageID int64, messageDate, messageContentText, originalText string, messageLink string, messageLinkIsPublic bool) {
+	chatIDStr := fmt.Sprintf("%d", chatID)
+	senderIDStr := fmt.Sprintf("%d", senderID)
+	messageIDStr := fmt.Sprintf("%d_%d", chatID, messageID)
 	allUserMap := make(map[string]string, 0)
 	allBlockUserMap := make(map[string]string, 0)
-	isInBlockFromChatID := redis_user.IsBlockformchatidOfAllCheck(chatID)
-	isInBlockFromSenderID := redis_user.IsBlockformsenderidOfAllCheck(senderID)
+	isInBlockFromChatID := redis_user.IsBlockformchatidOfAllCheck(chatIDStr)
+	isInBlockFromSenderID := redis_user.IsBlockformsenderidOfAllCheck(senderIDStr)
 
 	// 将原始消息文本转换为小写，方便进行关键词匹配（忽略大小写）
 	normalizedText := strings.ToLower(originalText)
@@ -42,10 +47,10 @@ func ProcessMessageKeywords(chatID, senderID, senderUsername, messageID, message
 				continue
 			}
 			//  记录检出的userHash
-			if isOk := redis_user.IsBlockformchatidOfUserCheck(userHash, chatID); isOk {
-				allBlockUserMap[userHash] = chatID
+			if isOk := redis_user.IsBlockformchatidOfUserCheck(userHash, chatIDStr); isOk {
+				allBlockUserMap[userHash] = chatIDStr
 				// log.Infof("屏蔽来源会话ID '%s' 在用户(%s)中被检测到！\n", chatID, userHash)
-				log.Debugf("IsBlockformchatidOfUserCheck(%s,%s): true", userHash, chatID)
+				log.Debugf("IsBlockformchatidOfUserCheck(%s,%s): true", userHash, chatIDStr)
 			}
 		}
 	}
@@ -61,10 +66,10 @@ func ProcessMessageKeywords(chatID, senderID, senderUsername, messageID, message
 				continue
 			}
 			//  记录检出的userHash
-			if isOk := redis_user.IsBlockformsenderidOfUserCheck(userHash, senderID); isOk {
-				allBlockUserMap[userHash] = senderID
+			if isOk := redis_user.IsBlockformsenderidOfUserCheck(userHash, senderIDStr); isOk {
+				allBlockUserMap[userHash] = senderIDStr
 				// log.Infof("屏蔽来源会话ID '%s' 在用户(%s)中被检测到！\n", senderID, userHash)
-				log.Debugf("IsBlockformsenderidOfUserCheck(%s,%s): true", userHash, senderID)
+				log.Debugf("IsBlockformsenderidOfUserCheck(%s,%s): true", userHash, senderIDStr)
 			}
 		}
 	}
@@ -145,8 +150,10 @@ func ProcessMessageKeywords(chatID, senderID, senderUsername, messageID, message
 	}
 	log.Debugf("allUserMap: %+v", allUserMap)
 	// 根据检出的用户信息map 推送信息
+	var keyworldList []string
 	for k, v := range allUserMap {
 		vc := v
+		keyworldList = append(keyworldList, vc)
 
 		if user, err := redis_user.GetUserInfoByUserInfoHash(k); err != nil {
 			log.Errorf("GetUserInfoByUserInfoHash(%s)Fail: %v", k, err)
@@ -176,12 +183,17 @@ func ProcessMessageKeywords(chatID, senderID, senderUsername, messageID, message
 			}
 			messageContentText = "关键词: #" + vc + "\n" + messageContentText
 			log.Debugf("will send messageContentText: %s To userInfo: %+v", messageContentText, user)
-			if retText, err := sendMessage(chatID, senderID, toChatID, botToken, messageID, messageDate, messageContentText, messageLink, messageLinkIsPublic); err != nil {
+			if retText, err := sendMessage(chatIDStr, senderIDStr, toChatID, botToken, messageIDStr, messageDate, messageContentText, messageLink, messageLinkIsPublic); err != nil {
 				log.Errorf("msg Send( %s )Fail: %v", messageContentText, err)
 			} else {
 				log.Debugf("msg Send( %s )Success: %s", messageContentText, retText)
 			}
 		}
-
 	}
+
+	go service.CreateKeyworldHistoryEx(
+		chatID, senderID, senderUsername,
+		messageID, messageContentText, messageLink,
+		strings.Join(keyworldList, ","),
+	)
 }
