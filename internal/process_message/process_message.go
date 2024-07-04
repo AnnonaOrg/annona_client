@@ -183,7 +183,11 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 			}
 			messageContentText = "关键词: #" + vc + "\n" + messageContentText
 			log.Debugf("will send messageContentText: %s To userInfo: %+v", messageContentText, user)
-			if retText, err := sendMessage(chatIDStr, senderIDStr, toChatID, botToken, messageIDStr, messageDate, messageContentText, messageLink, messageLinkIsPublic); err != nil {
+			if retText, err := sendMessage(
+				chatIDStr, senderIDStr, toChatID, botToken,
+				messageIDStr, messageDate, messageContentText, messageLink, messageLinkIsPublic,
+				vc,
+			); err != nil {
 				log.Errorf("msg Send( %s )Fail: %v", messageContentText, err)
 			} else {
 				log.Debugf("msg Send( %s )Success: %s", messageContentText, retText)

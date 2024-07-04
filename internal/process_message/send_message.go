@@ -51,6 +51,8 @@ type FeedRichMsgChatInfoModel struct {
 type FeedRichMsgFormInfoModel struct {
 	FormChatID   string `json:"formChatID" form:"formChatID"`
 	FormSenderID string `json:"formSenderID" form:"formSenderID"`
+
+	FormKeyworld string `json:"formKeyworld" form:"formKeyworld"`
 }
 
 func (msg *FeedRichMsgModel) ToString() (res string) {
@@ -76,7 +78,11 @@ func (msg *FeedRichMsgModel) ToString() (res string) {
 // toChatID 发送到ID
 // messageID 消息ID
 // messageContentText 消息内容(处理过的)
-func sendMessage(chatID, senderID string, toChatID int64, botToken, messageID, messageDate, messageContentText string, messageLink string, messageLinkIsPublic bool) (string, error) {
+func sendMessage(
+	chatID, senderID string, toChatID int64, botToken,
+	messageID, messageDate, messageContentText string, messageLink string, messageLinkIsPublic bool,
+	keyworld string,
+) (string, error) {
 	var richMsg FeedRichMsgModel
 
 	richMsg.BotInfo.BotToken = botToken
@@ -87,6 +93,7 @@ func sendMessage(chatID, senderID string, toChatID int64, botToken, messageID, m
 	richMsg.Text.Content = messageContentText
 	richMsg.FormInfo.FormChatID = chatID
 	richMsg.FormInfo.FormSenderID = senderID
+	richMsg.FormInfo.FormKeyworld = keyworld
 	richMsg.NoButton = false
 	richMsg.Link = messageLink
 	richMsg.LinkIsPublic = messageLinkIsPublic
