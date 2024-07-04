@@ -193,7 +193,7 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 
 	go service.CreateKeyworldHistoryEx(
 		chatID, senderID, senderUsername,
-		messageID, messageContentText, messageLink,
+		messageID, originalText, messageLink,
 		strings.Join(keyworldList, ","),
 	)
 }
