@@ -38,7 +38,7 @@ func handleNewMessage(message *client.Message) {
 		log.Debugf("IsViaBot(err): %v", err)
 	} else if isBot {
 		log.Debugf("Bot Message: %#v", message)
-		log.Infof("IsViaBot: %d", message.ViaBotUserId)
+		// log.Infof("IsViaBot: %d", message.ViaBotUserId)
 		return
 	}
 	//跳过匿名消息
@@ -46,10 +46,10 @@ func handleNewMessage(message *client.Message) {
 		log.Debugf("Message is anonymous")
 		return
 	}
-	senderUsername, err := api.GetUsernameByID(senderID)
-	if err != nil {
-		log.Errorf("GetUsernameByID(%d): %+v", senderID, err)
-	}
+	senderUsername, _ := api.GetUsernameByID(senderID)
+	// if err != nil {
+	// 	log.Errorf("GetUsernameByID(%d): %+v", senderID, err)
+	// }
 	// if !message.IsChannelPost && !message.IsTopicMessage && message.ChatId == senderID && message.ChatId > 0 {
 	// 	log.Debugf("Message is private")
 	// }
@@ -90,10 +90,10 @@ func handleUpdatedMessage(umc *client.UpdateMessageContent) {
 		return
 	}
 
-	senderUsername, err := api.GetUsernameByID(senderID)
-	if err != nil {
-		log.Errorf("GetUsernameByID(%d): %+v", senderID, err)
-	}
+	senderUsername, _ := api.GetUsernameByID(senderID)
+	// if err != nil {
+	// 	log.Errorf("GetUsernameByID(%d): %+v", senderID, err)
+	// }
 
 	// Updates to textual messages can be handled normally, without any specific worry
 	if umc.NewContent.MessageContentType() == client.TypeMessageText {
