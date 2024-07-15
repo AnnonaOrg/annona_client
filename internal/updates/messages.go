@@ -3,6 +3,7 @@ package updates
 import (
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/repository"
+	"github.com/AnnonaOrg/annona_client/internal/service"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/zelenin/go-tdlib/client"
@@ -33,14 +34,23 @@ func handleNewMessage(message *client.Message) {
 		log.Debug("Message from self")
 		return
 	}
+
 	//跳过机器人消息
-	if isBot, err := api.IsViaBotByUserID(senderID, message.ViaBotUserId); err != nil {
-		log.Debugf("IsViaBot(err): %v", err)
-	} else if isBot {
+	if isBot := service.IsBotID(senderID); isBot {
 		log.Debugf("Bot Message: %#v", message)
-		// log.Infof("IsViaBot: %d", message.ViaBotUserId)
 		return
+	} else {
+		if isBot, err := api.IsViaBotByUserID(senderID, message.ViaBotUserId); err != nil {
+			log.Debugf("IsViaBot(err): %v", err)
+		} else if isBot {
+			log.Debugf("Bot Message: %#v", message)
+			if err := service.AddBotIDToSet(senderID); err != nil {
+				log.Errorf("AddBotIDToSet(%d): %v", senderID, err)
+			}
+			return
+		}
 	}
+
 	//跳过匿名消息
 	if message.ChatId == senderID && message.ChatId > 0 {
 		log.Debugf("Message is anonymous")
@@ -88,6 +98,21 @@ func handleUpdatedMessage(umc *client.UpdateMessageContent) {
 	if senderID == repository.Me.Id {
 		log.Debug("Message from self")
 		return
+	}
+	//跳过机器人消息
+	if isBot := service.IsBotID(senderID); isBot {
+		log.Debugf("Bot Message: %#v", message)
+		return
+	} else {
+		if isBot, err := api.IsViaBotByUserID(senderID, message.ViaBotUserId); err != nil {
+			log.Debugf("IsViaBot(err): %v", err)
+		} else if isBot {
+			log.Debugf("Bot Message: %#v", message)
+			if err := service.AddBotIDToSet(senderID); err != nil {
+				log.Errorf("AddBotIDToSet(%d): %v", senderID, err)
+			}
+			return
+		}
 	}
 
 	senderUsername, _ := api.GetUsernameByID(senderID)
