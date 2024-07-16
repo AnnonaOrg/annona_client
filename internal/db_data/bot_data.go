@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/umfaka/umfaka_core/internal/log"
+	"github.com/AnnonaOrg/annona_client/internal/log"
 )
 
 const (
