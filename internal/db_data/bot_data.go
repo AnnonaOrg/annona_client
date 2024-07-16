@@ -43,5 +43,6 @@ func GetUsername(userID int64) string {
 	); err != nil {
 		log.Errorf("GetUsername(%d): %v", userID, err)
 	}
+
 	return username
 }
