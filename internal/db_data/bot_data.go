@@ -2,7 +2,6 @@ package db_data
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/AnnonaOrg/annona_client/internal/log"
 )
@@ -19,7 +18,7 @@ func AddBotIDToSet(botID int64) error {
 	)
 }
 func IsBotID(userID int64) bool {
-	isBot, err := IsMemberOfSet(BOT_ID_SET_prefix, botID)
+	isBot, err := IsMemberOfSet(BOT_ID_SET_prefix, userID)
 	if err != nil {
 		return false
 	}

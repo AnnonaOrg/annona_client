@@ -50,7 +50,7 @@ func GetUsernames(userID int64) []string {
 	}
 	var list []string
 	if strings.Contains(usernames, ",") {
-		list, err = strings.Split(usernames, ",")
+		list = strings.Split(usernames, ",")
 	} else if len(usernames) > 0 {
 		list = append(list, usernames)
 	}
