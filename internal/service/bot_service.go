@@ -8,6 +8,10 @@ import (
 	"github.com/AnnonaOrg/annona_client/internal/log"
 )
 
+// const (
+// 	USERNAME_null string = "NULL"
+// )
+
 func AddBotIDToSet(botID int64) error {
 	return db_data.AddBotIDToSet(botID)
 }
@@ -37,7 +41,11 @@ func GetUsernames(userID int64) []string {
 	usernames := db_data.GetUsername(userID)
 	if usernames == "" {
 		if usernameList, err := api.GetUsernamesByID(userID); err != nil {
+			usernames = "NULL"
 			log.Errorf("GetUsername.GetUsernamesByID(%d): %v", userID, err)
+			if err := SetUsername(userID, usernames); err != nil {
+				log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
+			}
 		} else {
 			if len(usernameList) > 0 {
 				usernames = strings.Join(usernameList, ",")
@@ -47,6 +55,9 @@ func GetUsernames(userID int64) []string {
 				return usernameList
 			}
 		}
+	}
+	if usernames == "NULL" {
+		return nil
 	}
 	var list []string
 	if strings.Contains(usernames, ",") {

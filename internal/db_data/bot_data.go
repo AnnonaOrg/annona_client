@@ -2,6 +2,7 @@ package db_data
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/AnnonaOrg/annona_client/internal/log"
 )
@@ -28,6 +29,13 @@ func IsBotID(userID int64) bool {
 func SetUsername(userID int64, username string) error {
 	if len(username) == 0 {
 		return fmt.Errorf("the username is NULL")
+	}
+	if username == "NULL" {
+		return AddKeyValueWithExpiration(
+			fmt.Sprintf("%s%d", USER_NAME_prefix, userID),
+			username,
+			time.Hour*24,
+		)
 	}
 	return AddKeyValue(
 		fmt.Sprintf("%s%d", USER_NAME_prefix, userID),
