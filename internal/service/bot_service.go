@@ -42,7 +42,7 @@ func GetUsernames(userID int64) []string {
 	if usernames == "" {
 		if usernameList, err := api.GetUsernamesByID(userID); err != nil {
 			usernames = "NULL"
-			log.Errorf("GetUsername.GetUsernamesByID(%d): %v", userID, err)
+			// log.Errorf("GetUsername.GetUsernamesByID(%d): %v", userID, err)
 			if err := SetUsername(userID, usernames); err != nil {
 				log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
 			}
