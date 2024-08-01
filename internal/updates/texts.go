@@ -2,12 +2,14 @@ package updates
 
 import (
 	"fmt"
+	"sync"
 
-	"github.com/AnnonaOrg/osenv"
+	"github.com/AnnonaOrg/annona_client/internal/service"
 
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/process_message"
 	"github.com/AnnonaOrg/annona_client/utils"
+	"github.com/AnnonaOrg/osenv"
 	log "github.com/sirupsen/logrus"
 	"github.com/zelenin/go-tdlib/client"
 )
@@ -22,11 +24,14 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		messageLinkIsPublic bool
 	)
 	if message.CanGetMediaTimestampLinks {
-		if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, message.IsTopicMessage); err != nil {
-			log.Errorf("api.GetMessageLink(%d,%d)%w", message.ChatId, message.Id, err)
-		} else {
-			messageLink = messageLinkTmp.Link
-			messageLinkIsPublic = messageLinkTmp.IsPublic
+		if !service.IsPublicChat(message.ChatId) {
+			if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, message.IsTopicMessage); err != nil {
+				log.Errorf("handleText.(api.GetMessageLink(%d,%d)): %v", message.ChatId, message.Id, err)
+				service.SetNotPublicChat(message.ChatId, err.Error())
+			} else {
+				messageLink = messageLinkTmp.Link
+				messageLinkIsPublic = messageLinkTmp.IsPublic
+			}
 		}
 	}
 
