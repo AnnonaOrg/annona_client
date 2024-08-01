@@ -11,9 +11,6 @@ const (
 )
 
 func SetNotPublicChat(chatID int64, value string) error {
-	if len(chatID) == 0 {
-		return fmt.Errorf("the chatID is NULL")
-	}
 	return AddKeyValueWithExpiration(
 		fmt.Sprintf("%s%d", CHAT_NOT_PUBLIC_prefix, chatID),
 		value,
@@ -24,7 +21,7 @@ func SetNotPublicChat(chatID int64, value string) error {
 // 存在记录 返回 值，true，
 func GetNotPublicChat(chatID int64) (string, bool, error) {
 	value := ""
-	isNotPublic := false
+
 	if err := GetKeyValue(
 		fmt.Sprintf("%s%d", CHAT_NOT_PUBLIC_prefix, chatID),
 		&value,
