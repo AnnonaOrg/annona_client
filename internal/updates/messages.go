@@ -4,7 +4,6 @@ import (
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/repository"
 	"github.com/AnnonaOrg/annona_client/internal/service"
-
 	log "github.com/sirupsen/logrus"
 	"github.com/zelenin/go-tdlib/client"
 )
