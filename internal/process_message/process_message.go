@@ -80,7 +80,7 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 
 	allBlockwordList, err := redis_user.GetAllBlockword()
 	if err != nil {
-		log.Errorf("GetAllBlockword()Fail: %v", err)
+		// log.Errorf("GetAllBlockword()Fail: %v", err)
 	} else {
 		log.Debugf("GetAllBlockword()Success: %+v", allBlockwordList)
 	}
