@@ -5,9 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AnnonaOrg/annona_client/internal/service"
-
 	"github.com/AnnonaOrg/annona_client/internal/redis_user"
+	"github.com/AnnonaOrg/annona_client/internal/service"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -37,7 +36,7 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 		log.Errorf("GetAllUserInfoHashList()Fail: %v", err)
 		return
 	} else {
-		log.Debugf("GetAllUserInfoHashList()Success: %+v", allUserList)
+		// log.Debugf("GetAllUserInfoHashList()Success: %+v", allUserList)
 	}
 	// 检测屏蔽群组信息
 	if isInBlockFromChatID {
@@ -119,7 +118,7 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 		log.Errorf("GetAllKeyword()Fail: %v", err)
 		return
 	} else {
-		log.Debugf("GetAllKeyword()Success: %+v", allKeywordList)
+		// log.Debugf("GetAllKeyword()Success: %+v", allKeywordList)
 	}
 	// 检测关键词
 	for _, keyword := range allKeywordList {
@@ -148,7 +147,12 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 			break
 		}
 	}
-	log.Debugf("allUserMap: %+v", allUserMap)
+
+	if len(allUserMap) == 0 {
+		log.Debugf("allUserMap: %+v", allUserMap)
+		return
+	}
+
 	// 根据检出的用户信息map 推送信息
 	var keyworldList []string
 	for k, v := range allUserMap {
