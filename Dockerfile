@@ -1,10 +1,7 @@
 FROM alpine:3.18 as tdlib-builder
-
 ENV LANG en_US.UTF-8
 ENV TZ UTC
-
 ARG TD_COMMIT
-
 RUN apk update && \
     apk upgrade && \
     apk add --update \
@@ -38,10 +35,8 @@ RUN apk update && \
 
 
 FROM golang:alpine3.18 as go-builder
-
 ENV LANG en_US.UTF-8
 ENV TZ UTC
-
 RUN set -eux && \
     apk update && \
     apk upgrade && \
@@ -56,7 +51,6 @@ RUN set -eux && \
         zlib-dev
 
 WORKDIR /src
-
 COPY --from=tdlib-builder /usr/local/include/td /usr/local/include/td/
 COPY --from=tdlib-builder /usr/local/lib/libtd* /usr/local/lib/
 COPY . /src
@@ -71,7 +65,6 @@ RUN go build \
 
 
 FROM alpine:3.18
-
 #ENV TZ Asia/Shanghai
 RUN apk upgrade --no-cache && \
     apk add --no-cache \
