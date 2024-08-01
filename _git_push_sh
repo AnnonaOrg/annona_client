@@ -11,7 +11,9 @@ make clean
 git add .
 git commit -m "v${VERSION} debug"
 git tag "v$VERSION"
-make gitpush
+#make gitpush
+git push -u origin main	
+git push --tags  -u origin main
 
 ####make clean
 #make docker-image
