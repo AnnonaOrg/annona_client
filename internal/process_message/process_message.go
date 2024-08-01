@@ -5,9 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AnnonaOrg/annona_client/internal/service"
-
 	"github.com/AnnonaOrg/annona_client/internal/redis_user"
+	"github.com/AnnonaOrg/annona_client/internal/service"
 	log "github.com/sirupsen/logrus"
 )
 
