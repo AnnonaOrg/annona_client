@@ -48,7 +48,9 @@ func GetUsername(userID int64) string {
 		fmt.Sprintf("%s%d", USER_NAME_prefix, userID),
 		&username,
 	); err != nil {
-		log.Errorf("GetUsername(%d): %v", userID, err)
+		if err != NilErr {
+			log.Errorf("GetUsername(%d): %v", userID, err)
+		}
 	}
 
 	return username

@@ -7,9 +7,7 @@ import (
 	"time"
 
 	"github.com/AnnonaOrg/annona_client/internal/dbredis"
-
 	"github.com/redis/go-redis/v9"
-	// "github.com/umfaka/umfaka_core/internal/db"
 )
 
 // NilErr represents redis nil
