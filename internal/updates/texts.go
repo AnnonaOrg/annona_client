@@ -2,12 +2,10 @@ package updates
 
 import (
 	"fmt"
-	"sync"
-
-	"github.com/AnnonaOrg/annona_client/internal/service"
 
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/process_message"
+	"github.com/AnnonaOrg/annona_client/internal/service"
 	"github.com/AnnonaOrg/annona_client/utils"
 	"github.com/AnnonaOrg/osenv"
 	log "github.com/sirupsen/logrus"
