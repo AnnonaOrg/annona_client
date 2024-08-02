@@ -149,7 +149,7 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 	}
 
 	if len(allUserMap) == 0 {
-		log.Debugf("allUserMap: %+v", allUserMap)
+		// log.Debugf("allUserMap: %+v", allUserMap)
 		return
 	}
 
