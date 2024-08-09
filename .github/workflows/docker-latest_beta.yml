@@ -2,9 +2,9 @@ name: docker-latest-annona_client
 on:
   workflow_dispatch: #github页面手动触发
   push:
-    branches: [ "tdlib*" ]
+    branches: [ "beta*" ]
 env:
-  IMAGE_NAME: annona_tdlib #这是您的镜像名
+  IMAGE_NAME: annona_client #这是您的镜像名
 
 jobs:        
   push-docker-hub:    
@@ -22,9 +22,9 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile_tdlib
+          file: ./Dockerfile_beta
           push: true
           build-args: |
             TD_COMMIT=d7203eb
           tags: |            
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest            
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:beta            

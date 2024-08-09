@@ -1,0 +1,28 @@
+FROM annona/annona_tdlib:latest
+COPY . /src
+
+RUN go build \
+    -a \
+    -trimpath \
+    -o annona_client \
+    -ldflags "-s -w -buildid=" \
+    "./cmd/annona_client" && \
+    ls -lah
+
+
+FROM alpine:3.18
+#ENV TZ Asia/Shanghai
+RUN apk upgrade --no-cache && \
+    apk add --no-cache \
+            ca-certificates \
+            libstdc++ \
+            tzdata \
+            musl-locales musl-locales-lang
+ENV LANG en_US.UTF-8
+ENV TZ UTC
+WORKDIR /app
+
+COPY --from=go-builder /src/annona_client .
+
+ENTRYPOINT ["./annona_client"]
+#CMD ["./annona_client"]
