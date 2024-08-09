@@ -16,6 +16,7 @@ import (
 // messageID 消息ID
 // messageContentText 消息内容(处理过的)
 func SendMessage(
+	formMessageID int64,
 	chatIDStr, senderIDStr string, toChatID int64, botToken,
 	messageID, messageDate, messageContentText string, messageLink string, messageLinkIsPublic bool,
 	keyworld string,
@@ -37,6 +38,7 @@ func SendMessage(
 	richMsg.Msgtype = "rich"
 	richMsg.Text.Content = messageContentText
 
+	richMsg.FormInfo.FormMessageID = formMessageID
 	richMsg.FormInfo.FormChatID = chatIDStr
 	richMsg.FormInfo.FormChatUsername = chatUsername
 	richMsg.FormInfo.FormChatTitle = chatTitle
@@ -70,11 +72,4 @@ func SendMessage(
 	)
 	return retText, err
 
-	// return send2server.SendMsgToServer(
-	// 	richMsg,
-	// 	serverRouter,
-	// 	serverChannel,
-	// 	serverToken,
-	// 	serverPath,
-	// )
 }
