@@ -25,7 +25,7 @@ func SendMessage(
 	chatID, _ := strconv.ParseInt(chatIDStr, 10, 64)
 
 	chatUsername := GetUsername(chatID)
-	chatTitle := GetUserFirstLastName(chatID)
+	chatTitle := GetChatTitle(chatID)
 	senderUsername := GetUsername(senderID)
 	senderTitle := GetUserFirstLastName(senderID)
 
