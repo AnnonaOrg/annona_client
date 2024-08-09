@@ -187,7 +187,7 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 			}
 			messageContentText = "关键词: #" + vc + "\n" + messageContentText
 			log.Debugf("will send messageContentText: %s To userInfo: %+v", messageContentText, user)
-			if retText, err := sendMessage(
+			if retText, err := service.SendMessage(
 				chatIDStr, senderIDStr, toChatID, botToken,
 				messageIDStr, messageDate, messageContentText, messageLink, messageLinkIsPublic,
 				vc,

@@ -8,10 +8,6 @@ import (
 	"github.com/AnnonaOrg/annona_client/internal/log"
 )
 
-// const (
-// 	USERNAME_null string = "NULL"
-// )
-
 func AddBotIDToSet(botID int64) error {
 	return db_data.AddBotIDToSet(botID)
 }
@@ -74,4 +70,24 @@ func GetUsername(userID int64) string {
 		return list[0]
 	}
 	return ""
+}
+
+func SetUserFirstLastName(userID int64, firstLastName string) error {
+	return db_data.SetUserFirstLastName(userID, firstLastName)
+}
+func GetUserFirstLastName(userID int64) string {
+	// SetUserFirstLastName
+	firstLastName := db_data.GetUserFirstLastName(userID)
+	if len(firstLastName) == 0 {
+		if firstName, lastName, err := api.GetUserFirstLastName(userID); err != nil {
+			// firstLastName = "NULL"
+			log.Errorf("GetUserFirstLastName(%d): %v", userID, err)
+		} else {
+			firstLastName = firstName + " " + lastName
+		}
+		if err := SetUserFirstLastName(userID, firstLastName); err != nil {
+			log.Errorf("SetUserFirstLastName(%d,%s): %v", userID, firstLastName, err)
+		}
+	}
+	return firstLastName
 }

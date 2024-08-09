@@ -16,6 +16,13 @@ func GetUserByID(userID int64) (*client.User, error) {
 	user, err := tdlibClient.GetUser(&client.GetUserRequest{UserId: userID})
 	return user, err
 }
+func GetUserFirstLastName(userID int64) (string, string, error) {
+	user, err := GetUserByID(userID)
+	if err != nil {
+		return "", "", err
+	}
+	return user.FirstName, user.LastName, nil
+}
 func GetUsernamesByID(userID int64) ([]string, error) {
 	var usernames []string
 

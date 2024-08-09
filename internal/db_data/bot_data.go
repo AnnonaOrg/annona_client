@@ -10,6 +10,8 @@ import (
 const (
 	BOT_ID_SET_prefix = "BOT_ID_SET_prefix_"
 	USER_NAME_prefix  = "USER_NAME_prefix_"
+
+	USER_FirstLastName_prefix = "USER_FirstLastName_prefix"
 )
 
 func AddBotIDToSet(botID int64) error {
@@ -54,4 +56,28 @@ func GetUsername(userID int64) string {
 	}
 
 	return username
+}
+
+func SetUserFirstLastName(userID int64, firstLastName string) error {
+	if len(firstLastName) == 0 {
+		return fmt.Errorf("the firstLastName is NULL")
+	}
+
+	return AddKeyValue(
+		fmt.Sprintf("%s%d", USER_FirstLastName_prefix, userID),
+		firstLastName,
+	)
+}
+func GetUserFirstLastName(userID int64) string {
+	firstLastName := ""
+	if err := GetKeyValue(
+		fmt.Sprintf("%s%d", USER_FirstLastName_prefix, userID),
+		&firstLastName,
+	); err != nil {
+		if err != NilErr {
+			log.Errorf("GetUserFirstLastName(%d): %v", userID, err)
+		}
+	}
+
+	return firstLastName
 }
