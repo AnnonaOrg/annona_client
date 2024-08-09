@@ -30,7 +30,8 @@ func IsBotID(userID int64) bool {
 
 func SetUsername(userID int64, username string) error {
 	if len(username) == 0 {
-		return fmt.Errorf("the username is NULL")
+		// return fmt.Errorf("the username is NULL")
+		return nil
 	}
 	if username == "NULL" {
 		return AddKeyValueWithExpiration(
@@ -60,7 +61,8 @@ func GetUsername(userID int64) string {
 
 func SetUserFirstLastName(userID int64, firstLastName string) error {
 	if len(firstLastName) == 0 {
-		return fmt.Errorf("the firstLastName is NULL")
+		// return fmt.Errorf("the firstLastName is NULL")
+		return nil
 	}
 
 	return AddKeyValue(
