@@ -62,17 +62,17 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		messageData int32,
 	) string {
 		retText := ""
-		retText = fmt.Sprintf("#ID%d", senderID)
-		if len(senderUsername) > 0 {
-			retText = retText + " @" + senderUsername
-		}
+		// retText = fmt.Sprintf("#ID%d", senderID)
+		// if len(senderUsername) > 0 {
+		// 	retText = retText + " @" + senderUsername
+		// }
 		if osenv.IsTDlibSimpleMessage() {
 			messageContentText = utils.GetStringRuneN(messageContentText, 20)
 		}
-		retText = retText + "\n" +
-			// fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +
-			// "messageLink: " + messageLink + " " + fmt.Sprintf("%t", messageLinkIsPublic) + "\n" +
-			"消息日期: " + utils.FormatTimestamp2String(int64(messageData)) + "\n" +
+		// retText = //retText + //"\n" +
+		// fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +
+		// "messageLink: " + messageLink + " " + fmt.Sprintf("%t", messageLinkIsPublic) + "\n" +
+		retText = "消息日期: " + utils.FormatTimestamp2String(int64(messageData)) + "\n" +
 			"消息内容: \n" + messageContentText
 
 		return retText
