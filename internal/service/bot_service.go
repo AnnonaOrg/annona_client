@@ -81,7 +81,7 @@ func GetUserFirstLastName(userID int64) string {
 	if len(firstLastName) == 0 {
 		if firstName, lastName, err := api.GetUserFirstLastName(userID); err != nil {
 			// firstLastName = "NULL"
-			log.Errorf("GetUserFirstLastName(%d): %v", userID, err)
+			log.Errorf("api.GetUserFirstLastName(%d): %v", userID, err)
 		} else {
 			firstLastName = firstName + " " + lastName
 		}
