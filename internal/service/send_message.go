@@ -53,6 +53,20 @@ func SendMessage(
 	richMsg.Link = messageLink
 	richMsg.LinkIsPublic = messageLinkIsPublic
 
+	msgContentSuffix := ""
+	if len(richMsg.FormInfo.FormChatTitle) > 0 {
+		msgContentSuffix = "来源:" + richMsg.FormInfo.FormChatTitle + "\n"
+		if len(richMsg.FormInfo.FormSenderTitle) > 0 {
+			msgContentSuffix = "发送人:" + richMsg.FormInfo.FormSenderTitle + "\n" + msgContentSuffix
+		}
+	}
+	// retText = fmt.Sprintf("#ID%d", senderID)
+	msgContentSuffix = msgContentSuffix + "#ID" + senderIDStr
+	if len(senderUsername) > 0 {
+		msgContentSuffix = msgContentSuffix + " @" + senderUsername
+	}
+	richMsg.Text.ContentEx = messageContentText + "\n" + msgContentSuffix
+
 	serverRouter := osenv.GetNoticeOfFeedRichMsgPushUrl()
 	serverChannel := fmt.Sprintf("%d", toChatID)
 	serverToken := fmt.Sprintf("%d", toChatID)
