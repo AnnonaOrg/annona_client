@@ -9,7 +9,6 @@ func GetChat(chatID int64) (*client.Chat, error) {
 	return tdlibClient.GetChat(&client.GetChatRequest{ChatId: chatID})
 }
 func GetChatTitle(chatID int64) (string, error) {
-	return tdlibClient.GetChat(&client.GetChatRequest{ChatId: chatID})
 	chat, err := GetChat(chatID)
 	if err != nil {
 		return "", err
