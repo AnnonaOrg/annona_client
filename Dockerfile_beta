@@ -1,6 +1,6 @@
-FROM annona/annona_tdlib:latest
-COPY . /src
+FROM annona/annona_tdlib:latest as go-builder
 
+COPY . /src
 RUN go build \
     -a \
     -trimpath \
