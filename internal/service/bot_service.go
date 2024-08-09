@@ -81,13 +81,17 @@ func GetUserFirstLastName(userID int64) string {
 	if len(firstLastName) == 0 {
 		if firstName, lastName, err := api.GetUserFirstLastName(userID); err != nil {
 			// firstLastName = "NULL"
-			log.Errorf("GetUserFirstLastName(%d): %v", userID, err)
+			log.Errorf("api.GetUserFirstLastName(%d): %v", userID, err)
 		} else {
 			firstLastName = firstName + " " + lastName
 		}
 		if err := SetUserFirstLastName(userID, firstLastName); err != nil {
 			log.Errorf("SetUserFirstLastName(%d,%s): %v", userID, firstLastName, err)
 		}
+	}
+
+	if firstLastName == "NULL" {
+		return ""
 	}
 	return firstLastName
 }
@@ -105,6 +109,9 @@ func GetChatTitle(chatID int64) string {
 		if err := SetUserFirstLastName(chatID, chatTitle); err != nil {
 			log.Errorf("SetUserFirstLastName(%d,%s): %v", chatID, chatTitle, err)
 		}
+	}
+	if chatTitle == "NULL" {
+		return ""
 	}
 	return chatTitle
 }

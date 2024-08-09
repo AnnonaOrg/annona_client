@@ -64,6 +64,13 @@ func SetUserFirstLastName(userID int64, firstLastName string) error {
 		// return fmt.Errorf("the firstLastName is NULL")
 		return nil
 	}
+	if firstLastName == "NULL" {
+		return AddKeyValueWithExpiration(
+			fmt.Sprintf("%s%d", USER_FirstLastName_prefix, userID),
+			firstLastName,
+			time.Hour*24,
+		)
+	}
 
 	return AddKeyValue(
 		fmt.Sprintf("%s%d", USER_FirstLastName_prefix, userID),
