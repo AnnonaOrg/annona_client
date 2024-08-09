@@ -76,7 +76,7 @@ func SetUserFirstLastName(userID int64, firstLastName string) error {
 	return db_data.SetUserFirstLastName(userID, firstLastName)
 }
 func GetUserFirstLastName(userID int64) string {
-	// SetUserFirstLastName
+
 	firstLastName := db_data.GetUserFirstLastName(userID)
 	if len(firstLastName) == 0 {
 		if firstName, lastName, err := api.GetUserFirstLastName(userID); err != nil {
@@ -93,7 +93,7 @@ func GetUserFirstLastName(userID int64) string {
 }
 
 func GetChatTitle(chatID int64) string {
-	// SetUserFirstLastName
+
 	chatTitle := db_data.GetUserFirstLastName(chatID)
 	if len(chatTitle) == 0 {
 		if titleTmp, err := api.GetChatTitle(chatID); err != nil {
