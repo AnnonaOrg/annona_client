@@ -1,8 +1,6 @@
 package updates
 
 import (
-	"fmt"
-
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/process_message"
 	"github.com/AnnonaOrg/annona_client/internal/service"
@@ -21,24 +19,7 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		messageLink         string
 		messageLinkIsPublic bool
 	)
-	// if message.CanGetMediaTimestampLinks {
-	// 	if !service.IsPublicChat(message.ChatId) {
-	// 		if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, false); err != nil {
-	// 			log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:false)): %v", message.ChatId, message.Id, err)
-	// 			if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, true); err != nil {
-	// 				log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:false)): %v", message.ChatId, message.Id, err)
-	// 				service.SetNotPublicChat(message.ChatId, err.Error())
-	// 			} else {
-	// 				messageLink = messageLinkTmp.Link
-	// 				messageLinkIsPublic = messageLinkTmp.IsPublic
-	// 			}
-	// 		} else {
-	// 			messageLink = messageLinkTmp.Link
-	// 			messageLinkIsPublic = messageLinkTmp.IsPublic
-	// 		}
 
-	// 	}
-	// }
 	if !service.IsPublicChat(message.ChatId) {
 		if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, false); err != nil {
 			log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:false)): %v", message.ChatId, message.Id, err)
@@ -95,7 +76,3 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 	)
 
 }
-
-// message_str = f'**关键词: {keywords}** __群组信息__ \n\n用户ID: [tg://user?id={event.from_id.user_id}](tg://user?id={event.from_id.user_id}) \n群组ID: {event.chat_id} \n群名称: {event.chat.title}\n消息位置: [点击查看]({channel_msg_url})\n消息时间: {china_time_str}'
-
-// func ProcessMessageKeywords(chatID, senderID, messageID, messageDate, messageContentText, originalText string, messageLink string, messageLinkIsPublic bool)
