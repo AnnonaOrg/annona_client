@@ -3,5 +3,6 @@
 rm ./cmd/annona_client/annona_client
 
 #docker build -t annona/tdlib_client:demo .   &&  docker push annona/tdlib_client:demo
-docker build --build-arg TD_COMMIT=d7203eb -t tdlib_client .
+#docker build --build-arg TD_COMMIT=d7203eb -t tdlib_client .
+docker build -f Dockerfile_beta -t annona_client:localhost .
 #docker image ls
