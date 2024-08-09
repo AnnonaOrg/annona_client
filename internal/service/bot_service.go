@@ -91,3 +91,20 @@ func GetUserFirstLastName(userID int64) string {
 	}
 	return firstLastName
 }
+
+func GetChatTitle(chatID int64) string {
+	// SetUserFirstLastName
+	chatTitle := db_data.GetUserFirstLastName(chatID)
+	if len(chatTitle) == 0 {
+		if titleTmp, err := api.GetChatTitle(chatID); err != nil {
+			// firstLastName = "NULL"
+			log.Errorf("GetChatTitle(%d): %v", chatID, err)
+		} else {
+			chatTitle = titleTmp
+		}
+		if err := SetUserFirstLastName(chatID, chatTitle); err != nil {
+			log.Errorf("SetUserFirstLastName(%d,%s): %v", chatID, chatTitle, err)
+		}
+	}
+	return chatTitle
+}
