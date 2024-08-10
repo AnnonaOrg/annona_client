@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/AnnonaOrg/annona_client/internal/constvar"
+
 	"github.com/AnnonaOrg/annona_client/internal/log"
 )
 
@@ -30,10 +32,9 @@ func IsBotID(userID int64) bool {
 
 func SetUsername(userID int64, username string) error {
 	if len(username) == 0 {
-		// return fmt.Errorf("the username is NULL")
 		return nil
 	}
-	if username == "NULL" {
+	if username == constvar.REDIS_VALUE_NULL {
 		return AddKeyValueWithExpiration(
 			fmt.Sprintf("%s%d", USER_NAME_prefix, userID),
 			username,
@@ -61,10 +62,9 @@ func GetUsername(userID int64) string {
 
 func SetUserFirstLastName(userID int64, firstLastName string) error {
 	if len(firstLastName) == 0 {
-		// return fmt.Errorf("the firstLastName is NULL")
 		return nil
 	}
-	if firstLastName == "NULL" {
+	if firstLastName == constvar.REDIS_VALUE_NULL {
 		return AddKeyValueWithExpiration(
 			fmt.Sprintf("%s%d", USER_FirstLastName_prefix, userID),
 			firstLastName,
