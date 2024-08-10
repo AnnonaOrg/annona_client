@@ -77,6 +77,9 @@ func SendMessage(
 		} else if len(messageLink) > 0 {
 			msgContentSuffixHtml = msgContentSuffix + "\n" +
 				"来源:" + "<a href=\"" + messageLink + "\">" + richMsg.FormInfo.FormChatTitle + "</a>"
+		} else {
+			msgContentSuffixHtml = msgContentSuffix + "\n" +
+				"来源:" + richMsg.FormInfo.FormChatTitle
 		}
 	}
 	msgContentSuffix = msgContentSuffix + "\n" + "#ID" + senderIDStr

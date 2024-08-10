@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/AnnonaOrg/annona_client/internal/constvar"
@@ -43,20 +45,32 @@ func GetUsernames(userID int64) []string {
 			usernameList, err = api.GetUsernamesByID(userID)
 			if err != nil {
 				log.Errorf("api.GetUsernamesByID(%d): %v", userID, err)
+				usernames = constvar.REDIS_VALUE_NULL
+				if err := SetUsername(userID, usernames); err != nil {
+					log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
+				}
 			}
 		} else {
 			usernameList, err = api.GetSupergroupUsernamesByID(userID)
 			if err != nil {
 				log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", userID, err)
+				id, _ := strconv.ParseInt(
+					strings.TrimPrefix(fmt.Sprintf("%d", userID), "-100"),
+					10, 64,
+				)
+				usernameList, err = api.GetSupergroupUsernamesByID(id)
+				if err != nil {
+					log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", id, err)
+				}
 			}
 		}
 
-		if err != nil {
-			usernames = constvar.REDIS_VALUE_NULL
-			if err := SetUsername(userID, usernames); err != nil {
-				log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
-			}
-		}
+		// if err != nil {
+		// 	usernames = constvar.REDIS_VALUE_NULL
+		// 	if err := SetUsername(userID, usernames); err != nil {
+		// 		log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
+		// 	}
+		// }
 		if len(usernameList) > 0 {
 			usernames = strings.Join(usernameList, ",")
 			if err := SetUsername(userID, usernames); err != nil {
