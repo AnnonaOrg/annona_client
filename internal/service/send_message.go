@@ -69,8 +69,7 @@ func SendMessage(
 	}
 
 	if len(richMsg.FormInfo.FormChatTitle) > 0 {
-		msgContentSuffix = msgContentSuffix + "\n" +
-			"来源:" + richMsg.FormInfo.FormChatTitle
+
 		if len(chatUsername) > 0 {
 			msgContentSuffixHtml = msgContentSuffix + "\n" +
 				"来源:" + "<a href=\"http://t.me/" + chatUsername + "\">" + richMsg.FormInfo.FormChatTitle + "</a>"
@@ -81,6 +80,8 @@ func SendMessage(
 			msgContentSuffixHtml = msgContentSuffix + "\n" +
 				"来源:" + richMsg.FormInfo.FormChatTitle
 		}
+		msgContentSuffix = msgContentSuffix + "\n" +
+			"来源:" + richMsg.FormInfo.FormChatTitle
 	}
 	msgContentSuffix = msgContentSuffix + "\n" + "#ID" + senderIDStr
 	msgContentSuffixHtml = msgContentSuffixHtml + "\n" + "#ID" + senderIDStr
