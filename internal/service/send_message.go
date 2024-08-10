@@ -74,6 +74,9 @@ func SendMessage(
 		if len(chatUsername) > 0 {
 			msgContentSuffixHtml = msgContentSuffix + "\n" +
 				"来源:" + "<a href=\"http://t.me/" + chatUsername + "\">" + richMsg.FormInfo.FormChatTitle + "</a>"
+		} else if len(messageLink) > 0 {
+			msgContentSuffixHtml = msgContentSuffix + "\n" +
+				"来源:" + "<a href=\"" + messageLink + "\">" + richMsg.FormInfo.FormChatTitle + "</a>"
 		}
 	}
 	msgContentSuffix = msgContentSuffix + "\n" + "#ID" + senderIDStr
