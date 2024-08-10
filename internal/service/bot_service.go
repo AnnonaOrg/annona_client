@@ -49,7 +49,7 @@ func GetUsernames(userID int64) []string {
 				log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", userID, err)
 			}
 		}
-		if err != nil && userID > 0 {
+		if err != nil {
 			usernames = "NULL"
 			if err := SetUsername(userID, usernames); err != nil {
 				log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
