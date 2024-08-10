@@ -189,7 +189,8 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 			log.Debugf("will send messageContentText: %s To userInfo: %+v", messageContentText, user)
 			if retText, err := service.SendMessage(
 				messageID,
-				chatIDStr, senderIDStr, toChatID, botToken,
+				chatID, senderID, toChatID,
+				botToken,
 				messageIDStr, messageDate, messageContentText, messageLink, messageLinkIsPublic,
 				vc,
 			); err != nil {

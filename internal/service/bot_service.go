@@ -36,7 +36,14 @@ func GetUsernames(userID int64) []string {
 	// return db_data.GetUsername(userID)
 	usernames := db_data.GetUsername(userID)
 	if usernames == "" {
-		if usernameList, err := api.GetUsernamesByID(userID); err != nil {
+		var usernameList []string
+		var err error
+		if userID > 0 {
+			usernameList, err = api.GetUsernamesByID(userID)
+		} else {
+			usernameList, err = api.GetSupergroupUsernamesByID(userID)
+		}
+		if err != nil {
 			usernames = "NULL"
 			// log.Errorf("GetUsername.GetUsernamesByID(%d): %v", userID, err)
 			if err := SetUsername(userID, usernames); err != nil {
@@ -66,8 +73,10 @@ func GetUsernames(userID int64) []string {
 
 func GetUsername(userID int64) string {
 	list := GetUsernames(userID)
-	if len(list) > 0 {
-		return list[0]
+	for _, v := range list {
+		if len(v) > 0 {
+			return v
+		}
 	}
 	return ""
 }
