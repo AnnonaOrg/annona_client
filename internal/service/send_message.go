@@ -57,6 +57,7 @@ func SendMessage(
 	richMsg.LinkIsPublic = messageLinkIsPublic
 
 	msgContentSuffix := ""
+	msgContentSuffixHtml := ""
 
 	if len(richMsg.FormInfo.FormSenderTitle) > 0 {
 		textTmp := ""
@@ -66,17 +67,19 @@ func SendMessage(
 		textTmp = "发送人:" + richMsg.FormInfo.FormSenderTitle + textTmp
 		msgContentSuffix = textTmp
 	}
-	msgContentSuffix = msgContentSuffix + "\n" + "#ID" + senderIDStr
+
 	if len(richMsg.FormInfo.FormChatTitle) > 0 {
-		richMsg.Text.ContentEx = messageContentText + "\n" + msgContentSuffix + "\n" +
+		msgContentSuffix = msgContentSuffix + "\n" +
 			"来源:" + richMsg.FormInfo.FormChatTitle
 		if len(chatUsername) > 0 {
-			richMsg.Text.ContentHtml = messageContentText + "\n" + msgContentSuffix + "\n" +
+			msgContentSuffixHtml = msgContentSuffix + "\n" +
 				"来源:" + "<a href=\"http://t.me/" + chatUsername + "\">" + richMsg.FormInfo.FormChatTitle + "</a>"
 		}
 	}
-
+	msgContentSuffix = msgContentSuffix + "\n" + "#ID" + senderIDStr
+	msgContentSuffixHtml = msgContentSuffixHtml + "\n" + "#ID" + senderIDStr
 	richMsg.Text.ContentEx = messageContentText + "\n" + msgContentSuffix
+	richMsg.Text.ContentHtml = messageContentText + "\n" + msgContentSuffixHtml
 
 	serverRouter := osenv.GetNoticeOfFeedRichMsgPushUrl()
 	serverChannel := fmt.Sprintf("%d", toChatID)
