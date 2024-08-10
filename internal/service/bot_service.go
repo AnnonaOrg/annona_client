@@ -3,6 +3,8 @@ package service
 import (
 	"strings"
 
+	"github.com/AnnonaOrg/annona_client/internal/constvar"
+
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/db_data"
 	"github.com/AnnonaOrg/annona_client/internal/log"
@@ -33,7 +35,6 @@ func SetUsername(userID int64, usernames string) error {
 	return db_data.SetUsername(userID, usernames)
 }
 func GetUsernames(userID int64) []string {
-	// return db_data.GetUsername(userID)
 	usernames := db_data.GetUsername(userID)
 	if usernames == "" {
 		var usernameList []string
@@ -49,22 +50,22 @@ func GetUsernames(userID int64) []string {
 				log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", userID, err)
 			}
 		}
+
 		if err != nil {
-			usernames = "NULL"
+			usernames = constvar.REDIS_VALUE_NULL
 			if err := SetUsername(userID, usernames); err != nil {
 				log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
 			}
-		} else {
-			if len(usernameList) > 0 {
-				usernames = strings.Join(usernameList, ",")
-				if err := SetUsername(userID, usernames); err != nil {
-					log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
-				}
-				return usernameList
+		}
+		if len(usernameList) > 0 {
+			usernames = strings.Join(usernameList, ",")
+			if err := SetUsername(userID, usernames); err != nil {
+				log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
 			}
+			return usernameList
 		}
 	}
-	if usernames == "NULL" {
+	if usernames == constvar.REDIS_VALUE_NULL {
 		return nil
 	}
 	var list []string
@@ -90,7 +91,6 @@ func SetUserFirstLastName(userID int64, firstLastName string) error {
 	return db_data.SetUserFirstLastName(userID, firstLastName)
 }
 func GetUserFirstLastName(userID int64) string {
-
 	firstLastName := db_data.GetUserFirstLastName(userID)
 	if len(firstLastName) == 0 {
 		if firstName, lastName, err := api.GetUserFirstLastName(userID); err != nil {
@@ -104,18 +104,16 @@ func GetUserFirstLastName(userID int64) string {
 		}
 	}
 
-	if firstLastName == "NULL" {
+	if firstLastName == constvar.REDIS_VALUE_NULL {
 		return ""
 	}
 	return firstLastName
 }
 
 func GetChatTitle(chatID int64) string {
-
 	chatTitle := db_data.GetUserFirstLastName(chatID)
 	if len(chatTitle) == 0 {
 		if titleTmp, err := api.GetChatTitle(chatID); err != nil {
-			// firstLastName = "NULL"
 			log.Errorf("GetChatTitle(%d): %v", chatID, err)
 		} else {
 			chatTitle = titleTmp
@@ -124,7 +122,7 @@ func GetChatTitle(chatID int64) string {
 			log.Errorf("SetUserFirstLastName(%d,%s): %v", chatID, chatTitle, err)
 		}
 	}
-	if chatTitle == "NULL" {
+	if chatTitle == constvar.REDIS_VALUE_NULL {
 		return ""
 	}
 	return chatTitle

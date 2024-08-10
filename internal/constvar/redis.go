@@ -25,3 +25,7 @@ const (
 	// 单用户屏蔽来源发送者ID集合键名 键名=REDIS_SET_KEY_USER_PREFIX_BLOCKFORMSENDERID+userInfoHash
 	REDIS_SET_KEY_USER_PREFIX_BLOCKFORMSENDERID string = "blockformsenderid_setkey_user_"
 )
+
+const (
+	REDIS_VALUE_NULL string = "NULL"
+)
