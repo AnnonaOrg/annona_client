@@ -64,8 +64,14 @@ func GetUsernames(userID int64) []string {
 					usernameList, err = api.GetUsernamesByID(userID)
 					if err != nil {
 						log.Errorf("api.GetUsernamesByID(%d): %v", userID, err)
+					} else {
+						log.Debugf("GetUsernamesByID(%d):%s", userID, strings.Join(usernameList, ","))
 					}
+				} else {
+					log.Debugf("GetSupergroupUsernamesByID(%d):%s", id, strings.Join(usernameList, ","))
 				}
+			} else {
+				log.Debugf("GetSupergroupUsernamesByID(%d):%s", userID, strings.Join(usernameList, ","))
 			}
 		}
 
