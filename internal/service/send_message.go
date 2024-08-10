@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"strconv"
+	// "strconv"
 
 	"github.com/AnnonaOrg/annona_client/internal/request"
 	"github.com/AnnonaOrg/osenv"
@@ -11,18 +11,21 @@ import (
 )
 
 // processMessageKeywords 处理消息关键词
+// formMessageID 消息ID
 // botToken 机器人Bot
 // toChatID 发送到ID
-// messageID 消息ID
+// messageIDStr fmt.Sprintf("%d_%d", chatID, messageID)
 // messageContentText 消息内容(处理过的)
 func SendMessage(
 	formMessageID int64,
-	chatIDStr, senderIDStr string, toChatID int64, botToken,
-	messageID, messageDate, messageContentText string, messageLink string, messageLinkIsPublic bool,
+	chatID, senderID int64, toChatID int64, botToken,
+	messageIDStr, messageDate, messageContentText string, messageLink string, messageLinkIsPublic bool,
 	keyworld string,
 ) (string, error) {
-	senderID, _ := strconv.ParseInt(senderIDStr, 10, 64)
-	chatID, _ := strconv.ParseInt(chatIDStr, 10, 64)
+	// senderID, _ := strconv.ParseInt(senderIDStr, 10, 64)
+	// chatID, _ := strconv.ParseInt(chatIDStr, 10, 64)
+	chatIDStr := fmt.Sprintf("%d", chatID)
+	senderIDStr := fmt.Sprintf("%d", senderID)
 
 	chatUsername := GetUsername(chatID)
 	chatTitle := GetChatTitle(chatID)
@@ -33,7 +36,7 @@ func SendMessage(
 
 	richMsg.BotInfo.BotToken = botToken
 	richMsg.ChatInfo.ToChatID = toChatID
-	richMsg.MsgID = fmt.Sprintf("%d", toChatID) + messageID
+	richMsg.MsgID = fmt.Sprintf("%d_", toChatID) + messageIDStr
 	richMsg.MsgTime = messageDate
 	richMsg.Msgtype = "rich"
 	richMsg.Text.Content = messageContentText
@@ -54,17 +57,25 @@ func SendMessage(
 	richMsg.LinkIsPublic = messageLinkIsPublic
 
 	msgContentSuffix := ""
+
+	if len(richMsg.FormInfo.FormSenderTitle) > 0 {
+		textTmp := ""
+		if len(senderUsername) > 0 {
+			textTmp = " @" + senderUsername
+		}
+		textTmp = "发送人:" + richMsg.FormInfo.FormSenderTitle + textTmp
+		msgContentSuffix = textTmp
+	}
+	msgContentSuffix = msgContentSuffix + "\n" + "#ID" + senderIDStr
 	if len(richMsg.FormInfo.FormChatTitle) > 0 {
-		msgContentSuffix = "来源:" + richMsg.FormInfo.FormChatTitle + "\n"
-		if len(richMsg.FormInfo.FormSenderTitle) > 0 {
-			msgContentSuffix = "发送人:" + richMsg.FormInfo.FormSenderTitle + "\n" + msgContentSuffix
+		richMsg.Text.ContentEx = messageContentText + "\n" + msgContentSuffix + "\n" +
+			"来源:" + richMsg.FormInfo.FormChatTitle
+		if len(chatUsername) > 0 {
+			richMsg.Text.ContentHtml = messageContentText + "\n" + msgContentSuffix + "\n" +
+				"来源:" + "<a href=\"http://t.me/" + chatUsername + "\">" + richMsg.FormInfo.FormChatTitle + "</a>"
 		}
 	}
-	// retText = fmt.Sprintf("#ID%d", senderID)
-	msgContentSuffix = msgContentSuffix + "#ID" + senderIDStr
-	if len(senderUsername) > 0 {
-		msgContentSuffix = msgContentSuffix + " @" + senderUsername
-	}
+
 	richMsg.Text.ContentEx = messageContentText + "\n" + msgContentSuffix
 
 	serverRouter := osenv.GetNoticeOfFeedRichMsgPushUrl()

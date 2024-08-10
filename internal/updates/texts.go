@@ -14,7 +14,6 @@ import (
 func handleText(message *client.Message, senderID int64, senderUsername string) {
 	messageContent := api.GetMessageFormattedText(message.Content) // message.Content.(*client.MessageText)
 	messageContentText := messageContent.Text
-	// log.Info("messageContent", messageContent, "messageContent.Text", messageContentText.Text)
 	var (
 		messageLink         string
 		messageLinkIsPublic bool
@@ -24,7 +23,7 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, false); err != nil {
 			log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:false)): %v", message.ChatId, message.Id, err)
 			if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, true); err != nil {
-				log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:false)): %v", message.ChatId, message.Id, err)
+				log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:true)): %v", message.ChatId, message.Id, err)
 				service.SetNotPublicChat(message.ChatId, err.Error())
 			} else {
 				messageLink = messageLinkTmp.Link
@@ -36,43 +35,22 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		}
 	}
 
-	newMsg := func(chatID, messageID,
-		senderID int64, senderUsername string,
-		messageContentText string,
-		messageLink string, messageLinkIsPublic bool,
-		messageData int32,
-	) string {
-		retText := ""
-		// retText = fmt.Sprintf("#ID%d", senderID)
-		// if len(senderUsername) > 0 {
-		// 	retText = retText + " @" + senderUsername
-		// }
-		if osenv.IsTDlibSimpleMessage() {
-			messageContentText = utils.GetStringRuneN(messageContentText, 20)
-		}
-		// retText = //retText + //"\n" +
-		// fmt.Sprintf("用户ID: tg://user?id=%d", senderID) + "\n" +
-		// "messageLink: " + messageLink + " " + fmt.Sprintf("%t", messageLinkIsPublic) + "\n" +
-		retText = "消息日期: " + utils.FormatTimestamp2String(int64(messageData)) + "\n" +
-			"消息内容: \n" + messageContentText
-
-		return retText
+	messageDataStr := utils.FormatTimestamp2String(int64(message.Date))
+	messageContentTextEx := ""
+	if osenv.IsTDlibSimpleMessage() {
+		messageContentTextEx = utils.GetStringRuneN(messageContentText, 20)
 	}
+	messageContentTextEx = "消息日期: " + messageDataStr + "\n" +
+		"消息内容: " + messageContentTextEx
 
 	go process_message.ProcessMessageKeywords(
 		message.ChatId,
 		senderID, senderUsername,
-		message.Id, //fmt.Sprintf("%d_%d", message.ChatId, message.Id),
+		message.Id,
 		utils.FormatTimestamp2String(int64(message.Date)),
-		newMsg(message.ChatId, message.Id,
-			senderID, senderUsername,
-			messageContentText,
-			messageLink, messageLinkIsPublic,
-			message.Date,
-		),
+		messageContentTextEx,
 		messageContentText,
 		messageLink,
 		messageLinkIsPublic,
 	)
-
 }
