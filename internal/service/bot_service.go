@@ -40,12 +40,17 @@ func GetUsernames(userID int64) []string {
 		var err error
 		if userID > 0 {
 			usernameList, err = api.GetUsernamesByID(userID)
+			if err != nil {
+				log.Errorf("api.GetUsernamesByID(%d): %v", userID, err)
+			}
 		} else {
 			usernameList, err = api.GetSupergroupUsernamesByID(userID)
+			if err != nil {
+				log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", userID, err)
+			}
 		}
 		if err != nil {
 			usernames = "NULL"
-			// log.Errorf("GetUsername.GetUsernamesByID(%d): %v", userID, err)
 			if err := SetUsername(userID, usernames); err != nil {
 				log.Errorf("GetUsername.SetUsername(%d,%s): %v", userID, usernames, err)
 			}
