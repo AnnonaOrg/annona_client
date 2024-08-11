@@ -6,6 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/AnnonaOrg/annona_client/internal/constvar"
+
 	"github.com/AnnonaOrg/annona_client/internal/dbredis"
 
 	_ "github.com/AnnonaOrg/annona_client/internal/log"
@@ -17,6 +19,7 @@ func main() {
 		fmt.Println("初始化数据库(REDIS)失败: %v", err)
 	}
 	defer dbredis.Close()
+	fmt.Printf("%s v %s\n", constvar.APP_NAME, constvar.APP_VERSION)
 
 	go listenTdlib()
 
