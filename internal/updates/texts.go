@@ -20,19 +20,6 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 	)
 
 	if !service.IsPublicChat(message.ChatId) {
-		// if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, false); err != nil {
-		// 	log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:false)): %v", message.ChatId, message.Id, err)
-		// 	if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, true); err != nil {
-		// 		log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:true)): %v", message.ChatId, message.Id, err)
-		// 		service.SetNotPublicChat(message.ChatId, err.Error())
-		// 	} else {
-		// 		messageLink = messageLinkTmp.Link
-		// 		messageLinkIsPublic = messageLinkTmp.IsPublic
-		// 	}
-		// } else {
-		// 	messageLink = messageLinkTmp.Link
-		// 	messageLinkIsPublic = messageLinkTmp.IsPublic
-		// }
 		inMessageThread := false
 		if message.IsTopicMessage || message.MessageThreadId > 0 {
 			inMessageThread = true
@@ -49,7 +36,7 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 	}
 
 	messageDataStr := utils.FormatTimestamp2String(int64(message.Date))
-	messageContentTextEx := ""
+	messageContentTextEx := messageContentText
 	if osenv.IsTDlibSimpleMessage() {
 		messageContentTextEx = utils.GetStringRuneN(messageContentText, 20)
 	}
