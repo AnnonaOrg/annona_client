@@ -51,27 +51,21 @@ func GetUsernames(userID int64) []string {
 				}
 			}
 		} else {
-			usernameList, err = api.GetSupergroupUsernamesByID(userID)
+			id, _ := strconv.ParseInt(
+				strings.TrimPrefix(fmt.Sprintf("%d", userID), "-100"),
+				10, 64,
+			)
+			usernameList, err = api.GetSupergroupUsernamesByID(id)
 			if err != nil {
-				log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", userID, err)
-				id, _ := strconv.ParseInt(
-					strings.TrimPrefix(fmt.Sprintf("%d", userID), "-100"),
-					10, 64,
-				)
-				usernameList, err = api.GetSupergroupUsernamesByID(id)
+				log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", id, err)
+				usernameList, err = api.GetUsernamesByID(id)
 				if err != nil {
-					log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", id, err)
-					usernameList, err = api.GetUsernamesByID(userID)
-					if err != nil {
-						log.Errorf("api.GetUsernamesByID(%d): %v", userID, err)
-					} else {
-						log.Debugf("GetUsernamesByID(%d):%s", userID, strings.Join(usernameList, ","))
-					}
+					log.Errorf("api.GetUsernamesByID(%d): %v", id, err)
 				} else {
-					log.Debugf("GetSupergroupUsernamesByID(%d):%s", id, strings.Join(usernameList, ","))
+					log.Debugf("GetUsernamesByID(%d):%s", id, strings.Join(usernameList, ","))
 				}
 			} else {
-				log.Debugf("GetSupergroupUsernamesByID(%d):%s", userID, strings.Join(usernameList, ","))
+				log.Debugf("GetSupergroupUsernamesByID(%d):%s", id, strings.Join(usernameList, ","))
 			}
 		}
 
