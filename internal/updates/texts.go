@@ -19,20 +19,28 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		messageLinkIsPublic bool
 	)
 
-	if !service.IsPublicChat(message.ChatId) {
-		inMessageThread := false
-		if message.IsTopicMessage || message.MessageThreadId > 0 {
-			inMessageThread = true
-		}
-		if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, inMessageThread); err != nil {
-			log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:%t),MessageThreadId:%d): %v",
-				message.ChatId, message.Id, inMessageThread, message.MessageThreadId,
-				err)
-			service.SetNotPublicChat(message.ChatId, err.Error())
-		} else {
-			messageLink = messageLinkTmp.Link
-			messageLinkIsPublic = messageLinkTmp.IsPublic
-		}
+	// if !service.IsPublicChat(message.ChatId) {
+	// 	inMessageThread := false
+	// 	if message.IsTopicMessage { //|| message.MessageThreadId > 0
+	// 		inMessageThread = true
+	// 	}
+	// 	if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, inMessageThread); err != nil {
+	// 		log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:%t),MessageThreadId:%d): %v",
+	// 			message.ChatId, message.Id, inMessageThread, message.MessageThreadId,
+	// 			err)
+	// 		service.SetNotPublicChat(message.ChatId, err.Error())
+	// 	} else {
+	// 		messageLink = messageLinkTmp.Link
+	// 		messageLinkIsPublic = messageLinkTmp.IsPublic
+	// 	}
+	// }
+	if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, message.IsTopicMessage); err != nil {
+		log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:%t),MessageThreadId:%d): %v",
+			message.ChatId, message.Id, message.IsTopicMessage, message.MessageThreadId,
+			err)
+	} else {
+		messageLink = messageLinkTmp.Link
+		messageLinkIsPublic = messageLinkTmp.IsPublic
 	}
 
 	messageDataStr := utils.FormatTimestamp2String(int64(message.Date))

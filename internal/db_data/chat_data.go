@@ -14,7 +14,7 @@ func SetNotPublicChat(chatID int64, value string) error {
 	return AddKeyValueWithExpiration(
 		fmt.Sprintf("%s%d", CHAT_NOT_PUBLIC_prefix, chatID),
 		value,
-		time.Hour*24,
+		time.Hour*1,
 	)
 }
 

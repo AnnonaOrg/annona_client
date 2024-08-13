@@ -5,11 +5,7 @@ import (
 	"github.com/AnnonaOrg/annona_client/internal/log"
 )
 
-// var NotPublicChatMap sync.Map
-
 func IsPublicChat(chatID int64) bool {
-	// _, ok := NotPublicChatMap.Load(chatID)
-	// return ok
 	_, isOk, _ := db_data.GetNotPublicChat(chatID)
 	return isOk
 }
