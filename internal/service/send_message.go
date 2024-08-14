@@ -55,7 +55,7 @@ func SendMessage(
 	richMsg.Link = messageLink
 	richMsg.LinkIsPublic = messageLinkIsPublic
 
-	msgContentSuffix := ""
+	msgContentSuffix := "关键词: #" + keyworld + " #ID" + senderIDStr
 	msgContentSuffixHtml := ""
 
 	if len(richMsg.FormInfo.FormSenderTitle) > 0 {
@@ -64,7 +64,7 @@ func SendMessage(
 			textTmp = " @" + senderUsername
 		}
 		textTmp = "发送人:" + richMsg.FormInfo.FormSenderTitle + textTmp
-		msgContentSuffix = textTmp
+		msgContentSuffix = msgContentSuffix + "\n" + textTmp
 	}
 
 	if len(richMsg.FormInfo.FormChatTitle) > 0 {
@@ -82,10 +82,10 @@ func SendMessage(
 		msgContentSuffix = msgContentSuffix + "\n" +
 			"来源:" + richMsg.FormInfo.FormChatTitle
 	}
-	msgContentSuffix = msgContentSuffix + "\n" + "#ID" + senderIDStr
-	msgContentSuffixHtml = msgContentSuffixHtml + "\n" + "#ID" + senderIDStr
-	richMsg.Text.ContentEx = messageContentText + "\n" + msgContentSuffix
-	richMsg.Text.ContentHtml = messageContentText + "\n" + msgContentSuffixHtml
+	// msgContentSuffix = msgContentSuffix + "\n" + "#ID" + senderIDStr
+	// msgContentSuffixHtml = msgContentSuffixHtml + "\n" + "#ID" + senderIDStr
+	richMsg.Text.ContentEx = msgContentSuffix + "\n" + messageContentText       //+ "\n" + msgContentSuffix
+	richMsg.Text.ContentHtml = msgContentSuffixHtml + "\n" + messageContentText //+ "\n" + msgContentSuffixHtml
 
 	serverRouter := osenv.GetNoticeOfFeedRichMsgPushUrl()
 	serverChannel := fmt.Sprintf("%d", toChatID)
