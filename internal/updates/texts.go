@@ -33,14 +33,14 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 	if osenv.IsTDlibSimpleMessage() {
 		messageContentTextEx = utils.GetStringRuneN(messageContentText, 20)
 	}
-	messageContentTextEx = "消息日期: " + messageDataStr + "\n" +
-		"消息内容: " + messageContentTextEx
+	messageContentTextEx = "日期: " + messageDataStr + "\n" +
+		"内容: " + messageContentTextEx
 
 	go service.ProcessMessageKeywords(
 		message.ChatId,
 		senderID, senderUsername,
 		message.Id,
-		utils.FormatTimestamp2String(int64(message.Date)),
+		messageDataStr,
 		messageContentTextEx,
 		messageContentText,
 		messageLink,
