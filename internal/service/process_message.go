@@ -1,4 +1,4 @@
-package process_message
+package service
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/AnnonaOrg/annona_client/internal/redis_user"
-	"github.com/AnnonaOrg/annona_client/internal/service"
+	// "github.com/AnnonaOrg/annona_client/internal/service"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -185,9 +185,9 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 				botToken = botTokenTmp
 				log.Debugf("GetBotTokenByBotId(%s)Success: %v", startBotId, botToken)
 			}
-			messageContentText = "关键词: #" + vc + "\n" + messageContentText
+			// messageContentText = "关键词: #" + vc + "\n" + messageContentText
 			log.Debugf("will send messageContentText: %s To userInfo: %+v", messageContentText, user)
-			if retText, err := service.SendMessage(
+			if retText, err := SendMessage(
 				messageID,
 				chatID, senderID, toChatID,
 				botToken,
@@ -201,7 +201,7 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 		}
 	}
 
-	go service.CreateKeyworldHistoryEx(
+	go CreateKeyworldHistoryEx(
 		chatID, senderID, senderUsername,
 		messageID, originalText, messageLink,
 		strings.Join(keyworldList, ","),

@@ -2,7 +2,8 @@ package updates
 
 import (
 	"github.com/AnnonaOrg/annona_client/internal/api"
-	"github.com/AnnonaOrg/annona_client/internal/process_message"
+	"github.com/AnnonaOrg/annona_client/internal/service"
+
 	"github.com/AnnonaOrg/annona_client/utils"
 	"github.com/AnnonaOrg/osenv"
 	log "github.com/sirupsen/logrus"
@@ -18,21 +19,6 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		messageLinkIsPublic bool
 	)
 
-	// if !service.IsPublicChat(message.ChatId) {
-	// 	inMessageThread := false
-	// 	if message.IsTopicMessage { //|| message.MessageThreadId > 0
-	// 		inMessageThread = true
-	// 	}
-	// 	if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, inMessageThread); err != nil {
-	// 		log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:%t),MessageThreadId:%d): %v",
-	// 			message.ChatId, message.Id, inMessageThread, message.MessageThreadId,
-	// 			err)
-	// 		service.SetNotPublicChat(message.ChatId, err.Error())
-	// 	} else {
-	// 		messageLink = messageLinkTmp.Link
-	// 		messageLinkIsPublic = messageLinkTmp.IsPublic
-	// 	}
-	// }
 	if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, message.IsTopicMessage); err != nil {
 		log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:%t),MessageThreadId:%d): %v",
 			message.ChatId, message.Id, message.IsTopicMessage, message.MessageThreadId,
@@ -50,7 +36,7 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 	messageContentTextEx = "消息日期: " + messageDataStr + "\n" +
 		"消息内容: " + messageContentTextEx
 
-	go process_message.ProcessMessageKeywords(
+	go service.ProcessMessageKeywords(
 		message.ChatId,
 		senderID, senderUsername,
 		message.Id,
