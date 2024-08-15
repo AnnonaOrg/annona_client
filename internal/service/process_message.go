@@ -19,7 +19,11 @@ import (
 // originalText 原始消息内容
 // messageLink 消息链接
 // messageLinkIsPublic 消息链接是否为公开链接
-func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messageID int64, messageDate, messageContentText, originalText string, messageLink string, messageLinkIsPublic bool) {
+func ProcessMessageKeywords(
+	chatID, senderID int64, senderUsername string,
+	messageID int64, messageDateStr, messageContentText, originalText string, messageLink string, messageLinkIsPublic bool,
+	messageDate int64,
+) {
 	chatIDStr := fmt.Sprintf("%d", chatID)
 	senderIDStr := fmt.Sprintf("%d", senderID)
 	messageIDStr := fmt.Sprintf("%d_%d", chatID, messageID)
@@ -191,7 +195,7 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 				messageID,
 				chatID, senderID, toChatID,
 				botToken,
-				messageIDStr, messageDate, messageContentText, messageLink, messageLinkIsPublic,
+				messageIDStr, messageDateStr, messageContentText, messageLink, messageLinkIsPublic,
 				vc,
 			); err != nil {
 				log.Errorf("msg Send( %s )Fail: %v", messageContentText, err)
@@ -205,5 +209,6 @@ func ProcessMessageKeywords(chatID, senderID int64, senderUsername string, messa
 		chatID, senderID, senderUsername,
 		messageID, originalText, messageLink,
 		strings.Join(keyworldList, ","),
+		messageDateStr, messageDate,
 	)
 }
