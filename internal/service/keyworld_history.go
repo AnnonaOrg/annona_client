@@ -38,6 +38,8 @@ func CreateKeyworldHistoryEx(
 	chatID, senderID int64, senderUsername string,
 	messageID int64, messageContentText string, messageLink string,
 	keyworld string,
+	messageDateStr string,
+	messageDate int64,
 ) error {
 	req := &request.KeyworldHistoryInfo{}
 	req.ChatId = chatID
@@ -47,5 +49,7 @@ func CreateKeyworldHistoryEx(
 	req.MessageContentText = messageContentText
 	req.MessageLink = messageLink
 	req.KeyWorld = keyworld
+	req.MessageDateEx = messageDateStr
+	req.MessageDate = messageDate
 	return CreateKeyworldHistory(req)
 }

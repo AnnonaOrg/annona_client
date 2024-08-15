@@ -28,22 +28,23 @@ func handleText(message *client.Message, senderID int64, senderUsername string) 
 		messageLinkIsPublic = messageLinkTmp.IsPublic
 	}
 
-	messageDataStr := utils.FormatTimestamp2String(int64(message.Date))
+	messageDateStr := utils.FormatTimestamp2String(int64(message.Date))
 	messageContentTextEx := messageContentText
 	if osenv.IsTDlibSimpleMessage() {
 		messageContentTextEx = utils.GetStringRuneN(messageContentText, 20)
 	}
-	messageContentTextEx = "日期: " + messageDataStr + "\n" +
+	messageContentTextEx = "日期: " + messageDateStr + "\n" +
 		"内容: " + messageContentTextEx
 
 	go service.ProcessMessageKeywords(
 		message.ChatId,
 		senderID, senderUsername,
 		message.Id,
-		messageDataStr,
+		messageDateStr,
 		messageContentTextEx,
 		messageContentText,
 		messageLink,
 		messageLinkIsPublic,
+		int64(message.Date),
 	)
 }
