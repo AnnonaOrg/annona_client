@@ -37,7 +37,7 @@ func GetAllByKey(keyStr string) ([]string, error) {
 	if len(list) > 0 {
 		return list, nil
 	}
-	return nil, fmt.Errorf("GET(%s): Null", keyStr)
+	return list, fmt.Errorf("GET(%s): Null", keyStr)
 }
 
 // 检查关键词是否在用户关键词列表 true 在，不在 false
