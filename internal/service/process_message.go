@@ -5,6 +5,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/AnnonaOrg/annona_client/internal/api"
+
 	"github.com/AnnonaOrg/annona_client/internal/redis_user"
 	// "github.com/AnnonaOrg/annona_client/internal/service"
 	log "github.com/sirupsen/logrus"
@@ -21,7 +23,9 @@ import (
 // messageLinkIsPublic 消息链接是否为公开链接
 func ProcessMessageKeywords(
 	chatID, senderID int64, senderUsername string,
-	messageID int64, messageDateStr, messageContentText, originalText string, messageLink string, messageLinkIsPublic bool,
+	messageID int64, messageDateStr, messageContentText, originalText string,
+	// messageLink string, messageLinkIsPublic bool,
+	messageIsTopicMessage bool,
 	messageDate int64,
 ) {
 	chatIDStr := fmt.Sprintf("%d", chatID)
@@ -155,6 +159,20 @@ func ProcessMessageKeywords(
 	if len(allUserMap) == 0 {
 		// log.Debugf("allUserMap: %+v", allUserMap)
 		return
+	}
+
+	// 提取messageLink信息
+	var (
+		messageLink         string
+		messageLinkIsPublic bool
+	)
+	if messageLinkTmp, err := api.GetMessageLink(chatID, messageID, 0, false, messageIsTopicMessage); err != nil {
+		log.Errorf("ProcessMessageKeywords.(api.GetMessageLink(%d,%d,inMessageThread:%t)): %v",
+			chatID, messageID, messageIsTopicMessage,
+			err)
+	} else {
+		messageLink = messageLinkTmp.Link
+		messageLinkIsPublic = messageLinkTmp.IsPublic
 	}
 
 	// 根据检出的用户信息map 推送信息
