@@ -6,6 +6,8 @@ github.com/AnnonaOrg/osenv v0.0.19 h1:oLfBc6B/Yg6UQUYdb0hJqamdu93GG7PH2i8mzRtOHi
 github.com/AnnonaOrg/osenv v0.0.19/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
 github.com/AnnonaOrg/osenv v0.1.11 h1:illZJ+1ht0QLAiXJ8GMz5Om9UgaKEVMiVkRsWS1wvLs=
 github.com/AnnonaOrg/osenv v0.1.11/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
+github.com/AnnonaOrg/osenv v0.1.15 h1:zuUzmBnzrGtof87uRooUNFGqBSBCdL/FWGAQxtWia4I=
+github.com/AnnonaOrg/osenv v0.1.15/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
 github.com/AnnonaOrg/pkg/send2server v0.0.0-20240116163056-658c3872f80a h1:exNlTHfMl2kP65Rh/Axz6sa8bsfQc0iub7/Brhc1rlY=
 github.com/AnnonaOrg/pkg/send2server v0.0.0-20240116163056-658c3872f80a/go.mod h1:8mX+fHriBSKP9tnYCvm5p/wArtwZledJZRhoFQCeTZg=
 github.com/bsm/ginkgo/v2 v2.12.0 h1:Ny8MWAHyOepLGlLKYmXG4IEkioBysk6GpaRTLC8zwWs=
