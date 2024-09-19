@@ -17,6 +17,9 @@ var (
 func GetRedisOptions() Options {
 	options := DefaultOptions
 	options.Address = osenv.GetServerDbRedisAddress()
+	if pw := osenv.GetServerDbRedisPassword(); len(pw) > 0 {
+		options.Password = pw
+	}
 	return options
 }
 
