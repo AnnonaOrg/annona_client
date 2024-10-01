@@ -7,11 +7,9 @@ import (
 	"syscall"
 
 	"github.com/AnnonaOrg/annona_client/internal/constvar"
-
 	"github.com/AnnonaOrg/annona_client/internal/dbredis"
-
 	_ "github.com/AnnonaOrg/annona_client/internal/log"
-	"github.com/AnnonaOrg/annona_client/internal/repository"
+	// "github.com/AnnonaOrg/annona_client/internal/repository"
 )
 
 func main() {
@@ -27,7 +25,7 @@ func main() {
 	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-ch
-		repository.Tdlib.Stop()
+		// repository.Tdlib.Stop()
 		os.Exit(1)
 	}()
 	select {}
