@@ -1,4 +1,4 @@
-FROM annona/annona_tdlib:latest as go-builder
+FROM annona/annona_tdlib:latest AS go-builder
 
 COPY . /src
 RUN go build \
@@ -18,8 +18,8 @@ RUN apk upgrade --no-cache && \
             libstdc++ \
             tzdata \
             musl-locales musl-locales-lang
-ENV LANG en_US.UTF-8
-ENV TZ UTC
+#ENV LANG=en_US.UTF-8
+ENV TZ=UTC
 WORKDIR /app
 
 COPY --from=go-builder /src/annona_client .
