@@ -3,6 +3,8 @@ package updates
 import (
 	"strings"
 
+	"github.com/AnnonaOrg/annona_client/internal/log"
+
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/service"
 	"github.com/AnnonaOrg/annona_client/utils"
