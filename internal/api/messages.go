@@ -2,6 +2,29 @@ package api
 
 import "github.com/zelenin/go-tdlib/client"
 
+func SendMessageText(text string, chatID int64) (*client.Message, error) {
+	formattedText, err := client.ParseTextEntities(&client.ParseTextEntitiesRequest{
+		Text:      text,
+		ParseMode: &client.TextParseModeMarkdown{Version: 2},
+	})
+
+	msg, err := tdlibClient.SendMessage(&client.SendMessageRequest{
+		ChatId:          chatID,
+		MessageThreadId: 0,
+		ReplyTo:         nil,
+		Options:         nil,
+		ReplyMarkup:     nil,
+		InputMessageContent: &client.InputMessageText{
+			Text: formattedText,
+			LinkPreviewOptions: &client.LinkPreviewOptions{
+				IsDisabled: true,
+			},
+			ClearDraft: false,
+		},
+	})
+	return msg, err
+}
+
 // GetMessage returns the client.Message with the input messageID
 // in the input chatID.
 func GetMessage(chatID, messageID int64) (*client.Message, error) {

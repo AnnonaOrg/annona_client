@@ -1,6 +1,8 @@
 package updates
 
 import (
+	"strings"
+
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/service"
 	"github.com/AnnonaOrg/annona_client/utils"
@@ -12,18 +14,24 @@ import (
 func handleText(message *client.Message, senderID int64, senderUsername string) {
 	messageContent := api.GetMessageFormattedText(message.Content) // message.Content.(*client.MessageText)
 	messageContentText := messageContent.Text
-	// var (
-	// 	messageLink         string
-	// 	messageLinkIsPublic bool
-	// )
-	// if messageLinkTmp, err := api.GetMessageLink(message.ChatId, message.Id, 0, false, message.IsTopicMessage); err != nil {
-	// 	log.Errorf("handleText.(api.GetMessageLink(%d,%d,inMessageThread:%t),MessageThreadId:%d): %v",
-	// 		message.ChatId, message.Id, message.IsTopicMessage, message.MessageThreadId,
-	// 		err)
-	// } else {
-	// 	messageLink = messageLinkTmp.Link
-	// 	messageLinkIsPublic = messageLinkTmp.IsPublic
-	// }
+
+	if strings.EqualFold(messageContentText, "/ping") {
+		if message.ChatId < 0 {
+			log.Debugf("message: %+v", message)
+			return
+		}
+		// if message.SenderId.MessageSenderType() == client.TypeMessageSenderUser {
+		// 	sender := message.SenderId.(*client.MessageSenderUser)
+		// 	senderID := sender.UserId
+		// 	if _, err := api.SendMessageText("pong", senderID); err != nil {
+		// 		log.Errorf("SendMessageText(pong,%d): %v", senderID, err)
+		// 	}
+		// }
+		if _, err := api.SendMessageText("pong", senderID); err != nil {
+			log.Errorf("SendMessageText(pong,%d): %v", senderID, err)
+		}
+		return
+	}
 
 	messageDateStr := utils.FormatTimestamp2String(int64(message.Date))
 	messageContentTextEx := messageContentText

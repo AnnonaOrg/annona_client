@@ -1,4 +1,4 @@
-FROM alpine:3.18 as tdlib-builder
+FROM alpine:3.18 AS tdlib-builder
 ENV LANG en_US.UTF-8
 ENV TZ UTC
 ARG TD_COMMIT
@@ -34,7 +34,7 @@ RUN apk update && \
     ls -lah /usr/local
 
 
-FROM golang:alpine3.18 as go-builder
+FROM golang:alpine3.18 AS go-builder
 ENV LANG en_US.UTF-8
 ENV TZ UTC
 RUN set -eux && \
@@ -72,8 +72,8 @@ RUN apk upgrade --no-cache && \
             libstdc++ \
             tzdata \
             musl-locales musl-locales-lang
-ENV LANG en_US.UTF-8
-ENV TZ UTC
+#ENV LANG=en_US.UTF-8
+ENV TZ=UTC
 WORKDIR /app
 
 COPY --from=go-builder /src/annona_client .
