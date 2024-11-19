@@ -8,7 +8,7 @@ import (
 )
 
 func IsEnableBlockLongText() bool {
-	return strings.EqualFold(osenv.Getenv("BLOCK_LONG_TEXT_ENABLE"))
+	return strings.EqualFold(osenv.Getenv("BLOCK_LONG_TEXT_ENABLE"), "true")
 }
 
 func GetBlockLongTextMaxCount() int {
