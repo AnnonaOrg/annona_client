@@ -39,6 +39,13 @@ func handleText(message *client.Message) {
 		return
 	}
 
+	if service.IsEnableBlockLongText() {
+		if count := service.GetBlockLongTextMaxCount(); len([]rune(messageContentText)) > count {
+			log.Debugf("忽略长文本: %s", messageContentText)
+			return
+		}
+	}
+
 	senderID, err := api.GetSenderID(message) //api.GetSenderUserID(message)
 	if err != nil {
 		log.Errorf("GetSenderID: %v", err)
