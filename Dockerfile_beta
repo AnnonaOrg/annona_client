@@ -1,4 +1,4 @@
-FROM annona/annona_tdlib:latest AS go-builder
+FROM annona/annona_tdlib:latest AS tdlib
 
 COPY . /src
 RUN go build \
@@ -22,7 +22,7 @@ RUN apk upgrade --no-cache && \
 ENV TZ=UTC
 WORKDIR /app
 
-COPY --from=go-builder /src/annona_client .
+COPY --from=tdlib /src/annona_client .
 
 ENTRYPOINT ["./annona_client"]
 #CMD ["./annona_client"]

@@ -38,16 +38,16 @@ func GetMessage(chatID, messageID int64) (*client.Message, error) {
 
 }
 
-func ReportMessage(chatID, messageID int64, reason client.ReportReason, text string) (*client.Ok, error) {
-	// var messageIds []int64
-	// messageIds = append(messageIds, messageID)
-	return tdlibClient.ReportChat(&client.ReportChatRequest{
-		ChatId:     chatID,
-		MessageIds: []int64{messageID},
-		Reason:     reason, //client.ReportReasonSpam{},
-		Text:       text,
-	})
-}
+//func ReportMessage(chatID, messageID int64, reason client.ReportReason, text string) (*client.Ok, error) {
+//	// var messageIds []int64
+//	// messageIds = append(messageIds, messageID)
+//	return tdlibClient.ReportChat(&client.ReportChatRequest{
+//		ChatId:     chatID,
+//		MessageIds: []int64{messageID},
+//		Reason:     reason, //client.ReportReasonSpam{},
+//		Text:       text,
+//	})
+//}
 
 // GetMessageFormattedText returns the client.FormattedText structure for
 // supported message types, nil otherwise.
