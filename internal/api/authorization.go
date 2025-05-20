@@ -52,13 +52,6 @@ func ClientAuthorize(apiIdRaw, apiHash string) (tClient *client.Client, err erro
 		return nil, err
 	}
 
-	//#Socks5
-	//SOCKS5_PROXY_ENABLE=false
-	//SOCKS5_PROXY_SERVER=
-	//	SOCKS5_PROXY_PORT=
-	//SOCKS5_PROXY_USERNAME=
-	//	SOCKS5_PROXY_PASSWORD=
-
 	proxy := client.WithProxy(&client.AddProxyRequest{
 		Server: osenv.GetSocks5ProxyServer(),
 		Port:   int32(osenv.GetSocks5ProxyPortInt()),
