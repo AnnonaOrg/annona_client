@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"github.com/AnnonaOrg/osenv"
 	"path/filepath"
 	"strconv"
 
@@ -49,6 +50,22 @@ func ClientAuthorize(apiIdRaw, apiHash string) (tClient *client.Client, err erro
 		return nil, err
 	}
 
-	tdlibClient, err = client.NewClient(authorizer)
+	//#Socks5
+	//SOCKS5_PROXY_ENABLE=false
+	//SOCKS5_PROXY_SERVER=
+	//	SOCKS5_PROXY_PORT=
+	//SOCKS5_PROXY_USERNAME=
+	//	SOCKS5_PROXY_PASSWORD=
+
+	proxy := client.WithProxy(&client.AddProxyRequest{
+		Server: osenv.GetSocks5ProxyServer(),
+		Port:   int32(osenv.GetSocks5ProxyPortInt()),
+		Enable: osenv.IsEnableSocks5Proxy(),
+		Type: &client.ProxyTypeSocks5{
+			Username: osenv.GetSocks5ProxyUsername(),
+			Password: osenv.GetSocks5ProxyPassword(),
+		},
+	})
+	tdlibClient, err = client.NewClient(authorizer, proxy)
 	return tdlibClient, err
 }
