@@ -10,6 +10,7 @@ import (
 	"github.com/AnnonaOrg/annona_client/internal/dbredis"
 	_ "github.com/AnnonaOrg/annona_client/internal/log"
 	// "github.com/AnnonaOrg/annona_client/internal/repository"
+	_ "github.com/AnnonaOrg/annona_client/internal/dotenv"
 )
 
 func main() {

@@ -1,13 +1,7 @@
-github.com/AnnonaOrg/osenv v0.0.4 h1:YZUFiqdzu853ClJyKJUBeUOKIJBUuWKd30JJvERI1qc=
-github.com/AnnonaOrg/osenv v0.0.4/go.mod h1:OJImuxHy5wf/XzkuSJjWtPRNQGaGq4ApgVHwo48tvx8=
-github.com/AnnonaOrg/osenv v0.0.5 h1:MPCxjbpl566I7EAW7X8eL9UyaEQLvgG+x4bdggs1ZPU=
-github.com/AnnonaOrg/osenv v0.0.5/go.mod h1:hSb+aV9uIs8sLAYLBAxELKmeFc/50iFo78lVYEJi7q4=
-github.com/AnnonaOrg/osenv v0.0.19 h1:oLfBc6B/Yg6UQUYdb0hJqamdu93GG7PH2i8mzRtOHiQ=
-github.com/AnnonaOrg/osenv v0.0.19/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
-github.com/AnnonaOrg/osenv v0.1.11 h1:illZJ+1ht0QLAiXJ8GMz5Om9UgaKEVMiVkRsWS1wvLs=
-github.com/AnnonaOrg/osenv v0.1.11/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
 github.com/AnnonaOrg/osenv v0.1.15 h1:zuUzmBnzrGtof87uRooUNFGqBSBCdL/FWGAQxtWia4I=
 github.com/AnnonaOrg/osenv v0.1.15/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
+github.com/AnnonaOrg/pkg/godotenv v0.0.0-20240408104401-3a28f6d71490 h1:trLNKHWPWiod7h4gR55IIu3e2LGm3oUKCUTn8EEIWVM=
+github.com/AnnonaOrg/pkg/godotenv v0.0.0-20240408104401-3a28f6d71490/go.mod h1:C143h8bAIt4R+KyuLQFEqC4qMYrmNr4K3H4gSj4SUww=
 github.com/AnnonaOrg/pkg/send2server v0.0.0-20240116163056-658c3872f80a h1:exNlTHfMl2kP65Rh/Axz6sa8bsfQc0iub7/Brhc1rlY=
 github.com/AnnonaOrg/pkg/send2server v0.0.0-20240116163056-658c3872f80a/go.mod h1:8mX+fHriBSKP9tnYCvm5p/wArtwZledJZRhoFQCeTZg=
 github.com/bsm/ginkgo/v2 v2.12.0 h1:Ny8MWAHyOepLGlLKYmXG4IEkioBysk6GpaRTLC8zwWs=
@@ -21,8 +15,6 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f h1:lO4WD4F/rVNCu3HqELle0jiPLLBs70cWOduZpkS1E78=
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f/go.mod h1:cuUVRXasLTGF7a8hSLbxyZXjz+1KgoB3wDUb6vlszIc=
-github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1 h1:wG8n/XJQ07TmjbITcGiUaOtXxdrINDz1b0J1w0SzqDc=
-github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1/go.mod h1:A2S0CWkNylc2phvKXWBBdD3K0iGnDBGbzRpISP2zBl8=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/redis/go-redis/v9 v9.4.0 h1:Yzoz33UZw9I/mFhx4MNrB6Fk+XHO1VukNcCa1+lwyKk=
@@ -32,10 +24,6 @@ github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVs
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
-github.com/zelenin/go-tdlib v0.7.1 h1:szKkr3G7yG9kiw2IXt0lFyZ4JgBt82SbOmUqsVqJMqA=
-github.com/zelenin/go-tdlib v0.7.1/go.mod h1:yqNbNZenZtXPKgf9hDuyZbsRz7qlxOxdfKOc+sAxxIE=
-github.com/zelenin/go-tdlib v0.7.2 h1:XpD77+t3bix62TsEZbuQeDls6QQJbcovpb8SVVfyNAA=
-github.com/zelenin/go-tdlib v0.7.2/go.mod h1:yqNbNZenZtXPKgf9hDuyZbsRz7qlxOxdfKOc+sAxxIE=
 github.com/zelenin/go-tdlib v0.7.6 h1:ts5iumjADPH669/Gjlyr9dkygkeRa4O5lGNTNv+5azI=
 github.com/zelenin/go-tdlib v0.7.6/go.mod h1:yqNbNZenZtXPKgf9hDuyZbsRz7qlxOxdfKOc+sAxxIE=
 golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 h1:0A+M6Uqn+Eje4kHMK80dtF3JCXC4ykBgQG4Fe06QRhQ=
