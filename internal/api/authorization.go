@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"github.com/AnnonaOrg/osenv"
+	log "github.com/sirupsen/logrus"
 	"path/filepath"
 	"strconv"
 
@@ -47,6 +48,7 @@ func ClientAuthorize(apiIdRaw, apiHash string) (tClient *client.Client, err erro
 	})
 	if err != nil {
 		// log.Fatalf("SetLogVerbosityLevel error: %s", err)
+		log.Errorf("SetLogVerbosityLevel(): %v", err)
 		return nil, err
 	}
 
@@ -67,5 +69,8 @@ func ClientAuthorize(apiIdRaw, apiHash string) (tClient *client.Client, err erro
 		},
 	})
 	tdlibClient, err = client.NewClient(authorizer, proxy)
+	if err != nil {
+		log.Errorf("NewClient(): %v", err)
+	}
 	return tdlibClient, err
 }
