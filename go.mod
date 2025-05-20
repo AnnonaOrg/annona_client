@@ -7,7 +7,7 @@ require (
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/redis/go-redis/v9 v9.4.0
 	github.com/sirupsen/logrus v1.9.3
-	github.com/zelenin/go-tdlib v0.7.2
+	github.com/zelenin/go-tdlib v0.7.6
 )
 
 require (
