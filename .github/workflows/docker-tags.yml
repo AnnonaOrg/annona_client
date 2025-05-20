@@ -41,7 +41,7 @@ jobs:
           file: ./Dockerfile
           push: true
           build-args: |
-            TD_COMMIT=d7203eb
+            TD_COMMIT=971684a
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ needs.get-tags.outputs.tags }}
   
