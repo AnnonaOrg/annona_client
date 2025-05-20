@@ -2,14 +2,12 @@ package api
 
 import (
 	"fmt"
+	"github.com/AnnonaOrg/annona_client/utils"
 	"github.com/AnnonaOrg/osenv"
 	log "github.com/sirupsen/logrus"
+	"github.com/zelenin/go-tdlib/client"
 	"path/filepath"
 	"strconv"
-
-	"github.com/AnnonaOrg/annona_client/utils"
-	// log "github.com/sirupsen/logrus"
-	"github.com/zelenin/go-tdlib/client"
 )
 
 var tdlibClient *client.Client
@@ -44,7 +42,7 @@ func ClientAuthorize(apiIdRaw, apiHash string) (tClient *client.Client, err erro
 	go client.CliInteractor(authorizer)
 
 	_, err = client.SetLogVerbosityLevel(&client.SetLogVerbosityLevelRequest{
-		NewVerbosityLevel: 1,
+		NewVerbosityLevel: 0,
 	})
 	if err != nil {
 		// log.Fatalf("SetLogVerbosityLevel error: %s", err)
