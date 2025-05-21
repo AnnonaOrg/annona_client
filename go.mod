@@ -3,7 +3,7 @@ module github.com/AnnonaOrg/annona_client
 go 1.21.6
 
 require (
-	github.com/AnnonaOrg/osenv v0.1.15
+	github.com/AnnonaOrg/osenv v0.1.22
 	github.com/AnnonaOrg/pkg/godotenv v0.0.0-20240408104401-3a28f6d71490
 	github.com/AnnonaOrg/pkg/send2server v0.0.0-20240116163056-658c3872f80a
 	github.com/redis/go-redis/v9 v9.4.0

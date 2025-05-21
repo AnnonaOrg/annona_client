@@ -1,5 +1,9 @@
 github.com/AnnonaOrg/osenv v0.1.15 h1:zuUzmBnzrGtof87uRooUNFGqBSBCdL/FWGAQxtWia4I=
 github.com/AnnonaOrg/osenv v0.1.15/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
+github.com/AnnonaOrg/osenv v0.1.20 h1:Scox9KNgEw0xSnIh7XwsQ3YKi2SVYz1ygOC9nlOj2sk=
+github.com/AnnonaOrg/osenv v0.1.20/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
+github.com/AnnonaOrg/osenv v0.1.22 h1:46nnDk+chY/RgxpdkPoXRzqE0kwRI5VdpON2ohzPZik=
+github.com/AnnonaOrg/osenv v0.1.22/go.mod h1:s7SfWcnwh1NBcHGVK8xFR1DcySlHEf5Ya0dOnLsn2Zk=
 github.com/AnnonaOrg/pkg/godotenv v0.0.0-20240408104401-3a28f6d71490 h1:trLNKHWPWiod7h4gR55IIu3e2LGm3oUKCUTn8EEIWVM=
 github.com/AnnonaOrg/pkg/godotenv v0.0.0-20240408104401-3a28f6d71490/go.mod h1:C143h8bAIt4R+KyuLQFEqC4qMYrmNr4K3H4gSj4SUww=
 github.com/AnnonaOrg/pkg/send2server v0.0.0-20240116163056-658c3872f80a h1:exNlTHfMl2kP65Rh/Axz6sa8bsfQc0iub7/Brhc1rlY=

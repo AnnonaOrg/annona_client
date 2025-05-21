@@ -55,6 +55,7 @@ func GetUsernames(userID int64) []string {
 				strings.TrimPrefix(fmt.Sprintf("%d", userID), "-100"),
 				10, 64,
 			)
+			
 			usernameList, err = api.GetSupergroupUsernamesByID(id)
 			if err != nil {
 				log.Errorf("api.GetSupergroupUsernamesByID(%d): %v", id, err)

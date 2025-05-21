@@ -38,12 +38,12 @@ func GetUsernamesByID(userID int64) ([]string, error) {
 				usernames = append(usernames, v)
 			}
 		}
-		for _, v := range user.Usernames.DisabledUsernames {
-			if _, ok := uMap[v]; !ok {
-				uMap[v] = v
-				usernames = append(usernames, v)
-			}
-		}
+		//for _, v := range user.Usernames.DisabledUsernames {
+		//	if _, ok := uMap[v]; !ok {
+		//		uMap[v] = v
+		//		usernames = append(usernames, v)
+		//	}
+		//}
 		if len(user.Usernames.EditableUsername) > 0 {
 			v := user.Usernames.EditableUsername
 			if _, ok := uMap[v]; !ok {
