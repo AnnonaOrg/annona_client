@@ -20,7 +20,7 @@ func handleText(message *client.Message) {
 	}
 	chatID := message.ChatId
 	if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
-		log.Errorf("IsCanGetMessageLink err: %v", err)
+		log.Errorf("IsCanGetMessageLink(%d) err: %v", chatID, err)
 		return
 	}
 
