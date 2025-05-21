@@ -19,29 +19,33 @@ func handleText(message *client.Message) {
 		return
 	}
 	chatID := message.ChatId
-	if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
-		log.Errorf("IsCanGetMessageLink(%d) err: %v", chatID, err)
-		return
-	}
 
 	messageContent := api.GetMessageFormattedText(message.Content) // message.Content.(*client.MessageText)
 	messageContentText := messageContent.Text
-	if strings.EqualFold(messageContentText, "/ping") {
-		if message.ChatId < 0 {
-			log.Debugf("message: %+v", message)
+	if strings.HasPrefix(messageContentText, "/") {
+		//跳过非私聊消息
+		if chatID < 0 {
+			//log.Debugf("message: %+v", message)
 			return
 		}
-		if message.SenderId.MessageSenderType() == client.TypeMessageSenderUser {
-			sender := message.SenderId.(*client.MessageSenderUser)
-			senderID := sender.UserId
-			if _, err := api.SendMessageText("pong", senderID); err != nil {
-				log.Errorf("SendMessageText(pong,%d): %v", senderID, err)
+		switch {
+		case strings.EqualFold(messageContentText, "/ping"):
+			{
+				if message.SenderId.MessageSenderType() == client.TypeMessageSenderUser {
+					sender := message.SenderId.(*client.MessageSenderUser)
+					senderID := sender.UserId
+					if _, err := api.SendMessageText("pong", senderID); err != nil {
+						log.Errorf("SendMessageText(pong,%d): %v", senderID, err)
+					}
+				}
+				// if _, err := api.SendMessageText("pong", senderID); err != nil {
+				// 	log.Errorf("SendMessageText(pong,%d): %v", senderID, err)
+				// }
+				return
 			}
+		default:
+			return
 		}
-		// if _, err := api.SendMessageText("pong", senderID); err != nil {
-		// 	log.Errorf("SendMessageText(pong,%d): %v", senderID, err)
-		// }
-		return
 	}
 
 	if service.IsEnableBlockLongText() {
@@ -49,6 +53,11 @@ func handleText(message *client.Message) {
 			log.Debugf("忽略长文本: %s", messageContentText)
 			return
 		}
+	}
+	//检测是否可获得消息链接
+	if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
+		log.Errorf("IsCanGetMessageLink(%d) err: %v", chatID, err)
+		return
 	}
 
 	senderID, err := api.GetSenderID(message) //api.GetSenderUserID(message)
