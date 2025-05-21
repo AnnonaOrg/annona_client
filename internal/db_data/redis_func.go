@@ -24,6 +24,10 @@ func RDBClient() *redis.Client {
 	return dbredis.Client()
 	// return db.RDB
 }
+func RDBClientSlave() *redis.Client {
+	return dbredis.ClientSlave()
+	// return db.RDB
+}
 
 // addToSetWithExpiration 向集合中添加元素
 func AddToSet(key string, member interface{}) error {
@@ -90,7 +94,7 @@ func RemoveAllFromSet(key string) error {
 
 // getSetMembers 获取集合中的所有元素
 func GetSetMembers(key string) ([]string, error) {
-	client := RDBClient()
+	client := RDBClientSlave()
 	// 使用SMembers方法获取集合中的所有元素
 	result, err := client.SMembers(context.Background(), key).Result()
 	if err != nil {
@@ -101,7 +105,7 @@ func GetSetMembers(key string) ([]string, error) {
 
 // isMemberOfSet 检查元素是否属于集合
 func IsMemberOfSet(key string, member interface{}) (bool, error) {
-	client := RDBClient()
+	client := RDBClientSlave()
 	// 使用SIsMember方法检查元素是否属于集合
 	result, err := client.SIsMember(context.Background(), key, member).Result()
 	if err != nil {
@@ -140,7 +144,7 @@ func AddKeyValue(key, value string) error {
 
 // getStruct 获取键的结构体值
 func GetKeyValue(key string, value interface{}) error {
-	client := RDBClient()
+	client := RDBClientSlave()
 	// 使用Get方法获取键的字符串值
 	jsonValue, err := client.Get(context.Background(), key).Result()
 	if err != nil {
