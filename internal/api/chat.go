@@ -18,7 +18,7 @@ func GetSupergroup(supergroupID int64) (*client.Supergroup, error) {
 func GetChatTitle(chatID int64) (string, error) {
 	chat, err := GetChat(chatID)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("GetChat(%d) err: %v", chatID, err)
 	}
 	chatTitle := ""
 	if chat != nil && len(chat.Title) > 0 {
@@ -40,7 +40,7 @@ func IsCanGetMessageLink(chatID int64) (bool, error) {
 		// 获取更详细的 supergroup 信息
 		supergroup, err := GetSupergroup(t.SupergroupId)
 		if err != nil || supergroup == nil {
-			return false, fmt.Errorf("GetSupergroup(%d) err: %v", t.SupergroupId, err)
+			return false, fmt.Errorf("GetSupergroup(%d:%s) err: %v", t.SupergroupId, chat.Title, err)
 		}
 
 		// 判断是否是频道
@@ -49,25 +49,25 @@ func IsCanGetMessageLink(chatID int64) (bool, error) {
 				if len(username.ActiveUsernames) > 0 || len(username.EditableUsername) > 0 {
 					return true, nil
 				} else {
-					return false, fmt.Errorf("这是私有频道(%+v)，不能生成消息链接", username)
+					return false, fmt.Errorf("这是私有频道(%+v)，不能生成消息链接(%d:%s)", username, t.SupergroupId, chat.Title)
 				}
 			} else {
-				return false, fmt.Errorf("这是私有频道，不能生成消息链接")
+				return false, fmt.Errorf("这是私有频道，不能生成消息链接(%d:%s)", t.SupergroupId, chat.Title)
 			}
 		} else {
 			if username := supergroup.Usernames; username != nil {
 				if len(username.ActiveUsernames) > 0 || len(username.EditableUsername) > 0 {
 					return true, nil
 				} else {
-					return false, fmt.Errorf("这是私有超级群(%+v)，不能生成消息链接", username)
+					return false, fmt.Errorf("这是私有超级群(%+v)，不能生成消息链接(%d:%s)", username, t.SupergroupId, chat.Title)
 				}
 			} else {
-				return false, fmt.Errorf("这是私有超级群，不能生成消息链接")
+				return false, fmt.Errorf("这是私有超级群，不能生成消息链接(%d:%s)", t.SupergroupId, chat.Title)
 			}
 		}
 
 	default:
-		return false, fmt.Errorf("不支持生成消息链接的 chat(%v) 类型", t)
+		return false, fmt.Errorf("不支持生成消息链接的 chat(%+v) 类型", t)
 	}
 
 }
