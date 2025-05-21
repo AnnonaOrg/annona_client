@@ -15,6 +15,24 @@ func GetSupergroup(supergroupID int64) (*client.Supergroup, error) {
 	return tdlibClient.GetSupergroup(&client.GetSupergroupRequest{SupergroupId: supergroupID})
 }
 
+func JoinChatByInviteLink(inviteLink string) (*client.Chat, error) {
+	return tdlibClient.JoinChatByInviteLink(&client.JoinChatByInviteLinkRequest{
+		InviteLink: inviteLink,
+	})
+}
+
+// JoinChat 加入一个会话(群组，频道)，私聊消息和加密会话消息不可用
+func JoinChat(chatID int64) error {
+	_, err := tdlibClient.JoinChat(&client.JoinChatRequest{ChatId: chatID})
+	return err
+}
+
+// LeaveChat 退出会话(群组，频道),私聊消息和加密会话消息不可用
+func LeaveChat(chatID int64) error {
+	_, err := tdlibClient.LeaveChat(&client.LeaveChatRequest{ChatId: chatID})
+	return err
+}
+
 func GetChatTitle(chatID int64) (string, error) {
 	chat, err := GetChat(chatID)
 	if err != nil {
