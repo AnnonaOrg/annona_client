@@ -27,11 +27,11 @@ func GetChatTitle(chatID int64) (string, error) {
 	return chatTitle, nil
 }
 
-// 判断是否为超级群，如果没有用户名，识别为不支持生成消息链接
+// IsCanGetMessageLink 判断是否为超级群，如果没有用户名，识别为不支持生成消息链接
 func IsCanGetMessageLink(chatID int64) (bool, error) {
 	chat, err := GetChat(chatID)
-	if err != nil {
-		return false, err
+	if err != nil || chat == nil {
+		return false, fmt.Errorf("GetChat(%d) err: %v", chatID, err)
 	}
 
 	// 判断类型和属性
@@ -39,9 +39,8 @@ func IsCanGetMessageLink(chatID int64) (bool, error) {
 	case *client.ChatTypeSupergroup:
 		// 获取更详细的 supergroup 信息
 		supergroup, err := GetSupergroup(t.SupergroupId)
-		if err != nil {
-			//fmt.Printf("❌ 获取超级群信息失败: %v\n", err)
-			return false, err
+		if err != nil || supergroup == nil {
+			return false, fmt.Errorf("GetSupergroup(%d) err: %v", t.SupergroupId, err)
 		}
 
 		// 判断是否是频道
@@ -68,7 +67,7 @@ func IsCanGetMessageLink(chatID int64) (bool, error) {
 		}
 
 	default:
-		return false, fmt.Errorf("❌ 不支持生成消息链接的 chat 类型")
+		return false, fmt.Errorf("不支持生成消息链接的 chat(%v) 类型", t)
 	}
 
 }
