@@ -18,6 +18,11 @@ func handleText(message *client.Message) {
 	if message.IsChannelPost {
 		return
 	}
+	chatID := message.ChatId
+	if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
+		log.Errorf("IsCanGetMessageLink err: %v", err)
+		return
+	}
 
 	messageContent := api.GetMessageFormattedText(message.Content) // message.Content.(*client.MessageText)
 	messageContentText := messageContent.Text
