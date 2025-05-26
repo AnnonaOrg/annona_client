@@ -64,9 +64,9 @@ func handleText(message *client.Message) {
 	if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
 		service.SetNoUsernameChatIDQueue(chatID)
 		log.Errorf("IsCanGetMessageLink(%d) err: %v", chatID, err)
-		if err := api.LeaveChat(chatID); err != nil {
-			log.Errorf("LeaveChat(%d) err: %v", chatID, err)
-		}
+		//if err := api.LeaveChat(chatID); err != nil {
+		//	log.Errorf("LeaveChat(%d) err: %v", chatID, err)
+		//}
 		return
 	}
 
