@@ -57,6 +57,9 @@ func handleText(message *client.Message) {
 	//检测是否可获得消息链接
 	if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
 		log.Errorf("IsCanGetMessageLink(%d) err: %v", chatID, err)
+		if err := api.LeaveChat(chatID); err != nil {
+			log.Errorf("LeaveChat(%d) err: %v", chatID, err)
+		}
 		return
 	}
 
