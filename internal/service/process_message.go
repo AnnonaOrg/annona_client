@@ -170,6 +170,7 @@ func ProcessMessageKeywords(
 		log.Errorf("ProcessMessageKeywords.(api.GetMessageLink(%d,%d,inMessageThread:%t)): %v",
 			chatID, messageID, messageIsTopicMessage,
 			err)
+		return
 	} else {
 		messageLink = messageLinkTmp.Link
 		messageLinkIsPublic = messageLinkTmp.IsPublic
@@ -223,10 +224,15 @@ func ProcessMessageKeywords(
 		}
 	}
 
-	go CreateKeyworldHistoryEx(
-		chatID, senderID, senderUsername,
-		messageID, originalText, messageLink,
-		strings.Join(keyworldList, ","),
-		messageDateStr, messageDate,
-	)
+	go func() {
+		err := CreateKeyworldHistoryEx(
+			chatID, senderID, senderUsername,
+			messageID, originalText, messageLink,
+			strings.Join(keyworldList, ","),
+			messageDateStr, messageDate,
+		)
+		if err != nil {
+			log.Errorf("CreateKeyworldHistoryEx err: %v", err)
+		}
+	}()
 }
