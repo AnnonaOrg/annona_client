@@ -1,9 +1,6 @@
 package updates
 
 import (
-	"strings"
-	"sync"
-
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/log"
 	"github.com/AnnonaOrg/annona_client/internal/repository"
@@ -11,10 +8,11 @@ import (
 	"github.com/AnnonaOrg/annona_client/utils"
 	"github.com/AnnonaOrg/osenv"
 	"github.com/zelenin/go-tdlib/client"
+	"strings"
 )
 
-// 存储 不能获取链接的会话ID IsCanGetMessageLink
-var syncMap sync.Map
+//// 存储 不能获取链接的会话ID IsCanGetMessageLink
+//var syncMap sync.Map
 
 // handleText handles incoming text messages.
 func handleText(message *client.Message) {
@@ -59,11 +57,12 @@ func handleText(message *client.Message) {
 		}
 	}
 	//检测是否可获得消息链接
-	if _, ok := syncMap.Load(chatID); ok {
+	if ok := service.CheckNoUsernameChatIDQueue(chatID); ok {
+		service.RemoveOldestNoUsernameChatIDQueue()
 		return
 	}
 	if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
-		syncMap.Store(chatID, true)
+		service.SetNoUsernameChatIDQueue(chatID)
 		log.Errorf("IsCanGetMessageLink(%d) err: %v", chatID, err)
 		if err := api.LeaveChat(chatID); err != nil {
 			log.Errorf("LeaveChat(%d) err: %v", chatID, err)
