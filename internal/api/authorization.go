@@ -42,8 +42,9 @@ func ClientAuthorize(apiIdRaw, apiHash string) (tClient *client.Client, err erro
 	go client.CliInteractor(authorizer)
 
 	_, err = client.SetLogVerbosityLevel(&client.SetLogVerbosityLevelRequest{
-		NewVerbosityLevel: 2,
+		NewVerbosityLevel: 0,
 	})
+
 	if err != nil {
 		// log.Fatalf("SetLogVerbosityLevel error: %s", err)
 		log.Errorf("SetLogVerbosityLevel(): %v", err)
