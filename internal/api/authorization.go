@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"github.com/AnnonaOrg/annona_client/utils"
-	"github.com/AnnonaOrg/osenv"
 	log "github.com/sirupsen/logrus"
 	"github.com/zelenin/go-tdlib/client"
 	"path/filepath"
@@ -43,25 +42,27 @@ func ClientAuthorize(apiIdRaw, apiHash string) (tClient *client.Client, err erro
 	go client.CliInteractor(authorizer)
 
 	_, err = client.SetLogVerbosityLevel(&client.SetLogVerbosityLevelRequest{
-		NewVerbosityLevel: 2,
+		NewVerbosityLevel: 0,
 	})
+
 	if err != nil {
 		// log.Fatalf("SetLogVerbosityLevel error: %s", err)
 		log.Errorf("SetLogVerbosityLevel(): %v", err)
 		return nil, err
 	}
 
-	proxy := client.WithProxy(&client.AddProxyRequest{
-		Server: osenv.GetSocks5ProxyServer(),
-		Port:   int32(osenv.GetSocks5ProxyPortInt()),
-		Enable: osenv.IsEnableSocks5Proxy(),
-		Type: &client.ProxyTypeSocks5{
-			Username: osenv.GetSocks5ProxyUsername(),
-			Password: osenv.GetSocks5ProxyPassword(),
-		},
-	})
+	//proxy := client.WithProxy(&client.AddProxyRequest{
+	//	Server: osenv.GetSocks5ProxyServer(),
+	//	Port:   int32(osenv.GetSocks5ProxyPortInt()),
+	//	Enable: osenv.IsEnableSocks5Proxy(),
+	//	Type: &client.ProxyTypeSocks5{
+	//		Username: osenv.GetSocks5ProxyUsername(),
+	//		Password: osenv.GetSocks5ProxyPassword(),
+	//	},
+	//})
 	catchTimeout := client.WithCatchTimeout(2 * time.Minute)
-	tdlibClient, err = client.NewClient(authorizer, proxy, catchTimeout)
+	//tdlibClient, err = client.NewClient(authorizer, proxy, catchTimeout)
+	tdlibClient, err = client.NewClient(authorizer, catchTimeout)
 	if err != nil {
 		log.Errorf("NewClient(): %v", err)
 	}
