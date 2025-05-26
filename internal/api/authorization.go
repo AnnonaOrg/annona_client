@@ -8,6 +8,7 @@ import (
 	"github.com/zelenin/go-tdlib/client"
 	"path/filepath"
 	"strconv"
+	"time"
 )
 
 var tdlibClient *client.Client
@@ -59,7 +60,8 @@ func ClientAuthorize(apiIdRaw, apiHash string) (tClient *client.Client, err erro
 			Password: osenv.GetSocks5ProxyPassword(),
 		},
 	})
-	tdlibClient, err = client.NewClient(authorizer, proxy)
+	catchTimeout := client.WithCatchTimeout(2 * time.Minute)
+	tdlibClient, err = client.NewClient(authorizer, proxy, catchTimeout)
 	if err != nil {
 		log.Errorf("NewClient(): %v", err)
 	}
