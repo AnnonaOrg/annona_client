@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"github.com/AnnonaOrg/annona_client/internal/db_data"
 	"github.com/zelenin/go-tdlib/client"
 )
 
@@ -45,8 +46,17 @@ func GetChatTitle(chatID int64) (string, error) {
 	return chatTitle, nil
 }
 
+var pubChatFifo = db_data.NewFIFOMap()
+
 // IsCanGetMessageLink 判断是否为超级群，如果没有用户名，识别为不支持生成消息链接
 func IsCanGetMessageLink(chatID int64) (bool, error) {
+	key := fmt.Sprintf("chat:%d", chatID)
+	if _, ok := pubChatFifo.Get(key); ok {
+		if count := pubChatFifo.Count(); count > 200 {
+			pubChatFifo.RemoveOldest()
+		}
+		return true, nil
+	}
 	chat, err := GetChat(chatID)
 	if err != nil || chat == nil {
 		return false, fmt.Errorf("GetChat(%d) err: %v", chatID, err)
@@ -65,6 +75,7 @@ func IsCanGetMessageLink(chatID int64) (bool, error) {
 		if t.IsChannel {
 			if username := supergroup.Usernames; username != nil {
 				if len(username.ActiveUsernames) > 0 || len(username.EditableUsername) > 0 {
+					pubChatFifo.Set(key, true)
 					return true, nil
 				} else {
 					return false, fmt.Errorf("这是私有频道(%+v)，不能生成消息链接(%d:%s)", username, t.SupergroupId, chat.Title)
@@ -75,6 +86,7 @@ func IsCanGetMessageLink(chatID int64) (bool, error) {
 		} else {
 			if username := supergroup.Usernames; username != nil {
 				if len(username.ActiveUsernames) > 0 || len(username.EditableUsername) > 0 {
+					pubChatFifo.Set(key, true)
 					return true, nil
 				} else {
 					return false, fmt.Errorf("这是私有超级群(%+v)，不能生成消息链接(%d:%s)", username, t.SupergroupId, chat.Title)
