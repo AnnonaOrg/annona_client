@@ -24,7 +24,7 @@ import (
 func ProcessMessageKeywords(
 	chatID, senderID int64, senderUsername string,
 	messageID int64, messageDateStr, messageContentText, originalText string,
-	// messageLink string, messageLinkIsPublic bool,
+// messageLink string, messageLinkIsPublic bool,
 	messageIsTopicMessage bool,
 	messageDate int64,
 ) {
@@ -166,14 +166,21 @@ func ProcessMessageKeywords(
 		messageLink         string
 		messageLinkIsPublic bool
 	)
-	if messageLinkTmp, err := api.GetMessageLink(chatID, messageID, 0, false, messageIsTopicMessage); err != nil {
-		log.Errorf("ProcessMessageKeywords.(api.GetMessageLink(%d,%d,inMessageThread:%t)): %v",
+	messageLinkTmp, err :=
+		api.GetMessageLink(chatID, messageID, 0, false, messageIsTopicMessage)
+	if err != nil {
+		log.Errorf(
+			"ProcessMessageKeywords.(api.GetMessageLink(%d,%d,inMessageThread:%t)): %v",
 			chatID, messageID, messageIsTopicMessage,
-			err)
-		return
-	} else {
+			err,
+		)
+		messageLink = fmt.Sprintf("https://t.me/%d/%d", chatID, messageID)
+	}
+	if messageLinkTmp != nil {
 		messageLink = messageLinkTmp.Link
 		messageLinkIsPublic = messageLinkTmp.IsPublic
+	} else {
+		messageLink = fmt.Sprintf("https://t.me/%d/#%d", chatID, messageID)
 	}
 
 	// 根据检出的用户信息map 推送信息
