@@ -1,6 +1,8 @@
 package updates
 
 import (
+	"strings"
+
 	"github.com/AnnonaOrg/annona_client/internal/api"
 	"github.com/AnnonaOrg/annona_client/internal/log"
 	"github.com/AnnonaOrg/annona_client/internal/repository"
@@ -8,7 +10,6 @@ import (
 	"github.com/AnnonaOrg/annona_client/utils"
 	"github.com/AnnonaOrg/osenv"
 	"github.com/zelenin/go-tdlib/client"
-	"strings"
 )
 
 //// 存储 不能获取链接的会话ID IsCanGetMessageLink
@@ -23,6 +24,9 @@ func handleText(message *client.Message) {
 	chatID := message.ChatId
 
 	messageContent := api.GetMessageFormattedText(message.Content) // message.Content.(*client.MessageText)
+	if messageContent == nil {
+		return
+	}
 	messageContentText := messageContent.Text
 	if strings.HasPrefix(messageContentText, "/") {
 		//跳过非私聊消息
@@ -57,17 +61,21 @@ func handleText(message *client.Message) {
 		}
 	}
 	//检测是否可获得消息链接
-	if ok := service.CheckNoUsernameChatIDQueue(chatID); ok {
-		service.RemoveOldestNoUsernameChatIDQueue()
-		return
-	}
-	if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
-		service.SetNoUsernameChatIDQueue(chatID)
-		log.Errorf("IsCanGetMessageLink(%d) err: %v", chatID, err)
-		//if err := api.LeaveChat(chatID); err != nil {
-		//	log.Errorf("LeaveChat(%d) err: %v", chatID, err)
-		//}
-		return
+	if service.IsEnableBlockPrivateGroupMessage() {
+		if ok := service.CheckNoUsernameChatIDQueue(chatID); ok {
+			service.RemoveOldestNoUsernameChatIDQueue()
+			return
+		}
+		if isTrue, err := api.IsCanGetMessageLink(chatID); !isTrue || err != nil {
+			service.SetNoUsernameChatIDQueue(chatID)
+			log.Errorf("IsCanGetMessageLink(%d) err: %v", chatID, err)
+			if service.IsEnableLeavePrivateGroup() {
+				if err := api.LeaveChat(chatID); err != nil {
+					log.Errorf("LeaveChat(%d) err: %v", chatID, err)
+				}
+			}
+			return
+		}
 	}
 
 	senderID, err := api.GetSenderID(message) //api.GetSenderUserID(message)
