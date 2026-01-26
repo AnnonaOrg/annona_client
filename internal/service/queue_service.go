@@ -32,6 +32,7 @@ package service
 
 import (
 	"fmt"
+
 	"github.com/AnnonaOrg/annona_client/internal/db_data"
 )
 
@@ -44,9 +45,8 @@ func CheckNoUsernameChatIDQueue(chatID int64) bool {
 	key := fmt.Sprintf("%d", chatID)
 	if _, ok := noUsernameChatIDQueue.Get(key); ok {
 		return true
-	} else {
-		return false
 	}
+	return false
 }
 
 func SetNoUsernameChatIDQueue(chatID int64) {

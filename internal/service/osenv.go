@@ -19,3 +19,7 @@ func GetBlockLongTextMaxCount() int {
 	}
 	return count
 }
+
+func IsEnableLeavePrivateGroup() bool {
+	return strings.EqualFold(osenv.Getenv("ENABLE_LEAVE_PRIVATE_GROUP"), "true")
+}

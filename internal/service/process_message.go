@@ -12,7 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// processMessageKeywords 处理消息关键词
+// ProcessMessageKeywords 处理消息关键词
 // chatID 回话ID
 // senderID 发送者ID
 // messageID 消息ID
